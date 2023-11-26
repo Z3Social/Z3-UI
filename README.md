@@ -2,7 +2,7 @@
 
 # Z3-UI
 
-NexUI is the frontend used for the upcoming fully desentralized social network ZЗ Social.
+Z3-UI is the frontend used for the upcoming fully desentralized social network ZЗ Social.
 
 ## How does it work?
 
