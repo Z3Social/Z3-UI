@@ -1,12 +1,12 @@
 #### Forked from [BDX-town/Mangane](https://github.com/BDX-town/Mangane)
 
-# NexUI
+# Z3-UI
 
-NexUI is the frontend used for the [official Nexify site](https://nexifyhub.com).
+NexUI is the frontend used for the upcoming fully desentralized social network ZЗ Social.
 
 ## How does it work?
 
-NexUI is a [single-page application (SPA)](https://en.wikipedia.org/wiki/Single-page_application) that runs entirely in the browser with JavaScript.
+Z3-UI is a [single-page application (SPA)](https://en.wikipedia.org/wiki/Single-page_application) that runs entirely in the browser with JavaScript.
 
 It has a single HTML file, `index.html`, responsible only for loading the required JavaScript and CSS.
 It interacts with the backend through [XMLHttpRequest (XHR)](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest).
@@ -26,34 +26,34 @@ location / {
 
 (See [`mastodon.conf`](https://github.com/NexifyHub/NexUI/blob/master/installation/mastodon.conf) file for a full example.)
 
-NexUI incorporates much of the [Mastodon API](https://docs.joinmastodon.org/methods/), [Pleroma API](https://api.pleroma.social/), and more.
+Z3-UI incorporates much of the [Mastodon API](https://docs.joinmastodon.org/methods/), [Pleroma API](https://api.pleroma.social/), and more.
 It detects features supported by the backend to provide the right experience for the backend.
 
 # :rocket: Deploy on Pleroma/Akkoma
 
-Installing NexUI on an existing Pleroma or Akkoma instance is easy.
+Installing Z3-UI on an existing Pleroma or Akkoma instance is easy.
 Log in with SSH your server and follow those instructions depending on your configuration.
 
 ## Download
 
-First you need to download NexUI on your server.
+First you need to download Z3-UI on your server.
 
 #### For OTP install
 
 ```sh
-/opt/pleroma/bin/pleroma_ctl frontend install nexui --ref dist --build-url https://github.com/NexifyHub/NexUI/releases/latest/download/static.zip
+/opt/pleroma/bin/pleroma_ctl frontend install z3-ui --ref dist --build-url https://github.com/Z3Social/Z3-UI/releases/latest/download/static.zip
 ```
 *Note: The pleroma_ctl path may vary on your system, if you are using Akkoma it's probably in /opt/akkoma/bin/*
 
 #### For Mix/Source install
 
 ```sh
-mix pleroma.frontend install nexui --ref dist --build-url https://github.com/NexifyHub/NexUI/releases/latest/download/static.zip
+mix pleroma.frontend install z3-ui --ref dist --build-url https://github.com/Z3Social/Z3-UI/releases/latest/download/static.zip
 ```
 
 #### With Admin FE 
 
-If database configuration is enabled, you can also install NexUI from the Admin interface of Pleroma/Akkoma. 
+If database configuration is enabled, you can also install Z3-UI from the Admin interface of Pleroma/Akkoma. 
 Just fill the form at Frontend/Available like this.
 
 ![admin-fe](./docs/admin-ui-1.png)
@@ -69,7 +69,7 @@ Edit your configuration files to add/edit the `config :pleroma, :frontends` sect
 ```
 config :pleroma, :frontends,
   primary: %{
-    "name" => "nexui",
+    "name" => "z3-ui",
     "ref" => "dist"
   }
 ```
@@ -83,8 +83,8 @@ Just fill the form at Frontend/frontends/Primary like this.
 
 **That's it!** :tada:
 
-NexUI is now installed.
-The change will take effect immediately, just refresh your browser tab, and NexUI will replace the default Pleroma FE or Akkoma FE interface. 
+Z3-UI is now installed.
+The change will take effect immediately, just refresh your browser tab, and Z3-UI will replace the default Pleroma FE or Akkoma FE interface. 
 You may need to restart Pleroma/Akkoma for the change to take effect.
 
 If you notice some issue with UI colors, please take a look at the Troubleshooting section.
@@ -93,18 +93,18 @@ If you notice some issue with UI colors, please take a look at the Troubleshooti
 
 #### Yunohost server
 
-If you use Akkoma or Pleroma packaged application for [Yunohost](https://yunohost.org), a Debian system dedicated to self hosting, you can install NexUI from the command line `pleroma_ctl`) or with Pleroma’s admin interface (Admin FE). More instructionh can be found in [Installing on Yunohost](./docs/administration/yunohost.md) documentation page.
+If you use Akkoma or Pleroma packaged application for [Yunohost](https://yunohost.org), a Debian system dedicated to self hosting, you can install Z3-UI from the command line `pleroma_ctl`) or with Pleroma’s admin interface (Admin FE). More instructionh can be found in [Installing on Yunohost](./docs/administration/yunohost.md) documentation page.
 
 #### Deploy on Mastodon
 
-NexUI is developed and tested only for Pleroma and Akkoma, this mean that there is _no_ explicit support to be installed as a frontend for a Mastodon instance.  If you want to try anyway, procede with caution. See the Soapbox (version 2) outdated documentation on [installing over Mastodon](./docs/administration/mastodon.md).
+Z3-UI is developed and tested only for Pleroma and Akkoma, this mean that there is _no_ explicit support to be installed as a frontend for a Mastodon instance.  If you want to try anyway, procede with caution. See the Soapbox (version 2) outdated documentation on [installing over Mastodon](./docs/administration/mastodon.md).
 
 # Upgrade
 
-To upgrade NexUI, run the install commands again, on top of actual version.
+To upgrade Z3-UI, run the install commands again, on top of actual version.
 
 ```
-/opt/pleroma/bin/pleroma_ctl frontend install nexui --ref dist --build-url https://github.com/NexifyHub/NexUI/releases/latest/download/static.zip
+/opt/pleroma/bin/pleroma_ctl frontend install z3-ui --ref dist --build-url https://github.com/Z3Social/Z3-UI/releases/latest/download/static.zip
 ```
 
 If you want, you can also upgrade from the admin interface (Admin FE), doing a _new_ installation.
@@ -114,7 +114,7 @@ If you want, you can also upgrade from the admin interface (Admin FE), doing a _
 To get it running, just clone the repo:
 
 ```sh
-git clone https://github.com/NexifyHub/NexUI.git
+git clone https://github.com/Z3Social/Z3-UI.git
 cd NexUI
 ```
 
@@ -151,7 +151,7 @@ Try again.
 
 ## Developing against a live backend
 
-You can also run NexUI FE locally with a live production server as the backend.
+You can also run Z3-UI FE locally with a live production server as the backend.
 
 > **Note:** Whether or not this works depends on your production server. It does not seem to work with Cloudflare or VanwaNet.
 
@@ -167,7 +167,7 @@ All configuration is optional, except `NODE_ENV`.
 #### `NODE_ENV`
 
 The Node environment.
-NexUI checks for the following options:
+Z3-UI checks for the following options:
 
 - `development` - What you should use while developing NexUI FE.
 - `production` - Use when compiling to deploy to a live server.
@@ -225,17 +225,17 @@ NODE_ENV=development
 We welcome contributions to this project. To contribute, first review the [Contributing doc](docs/contributing.md)
 
 Additional supporting documents include:
-* [NexUI History](docs/history.md)
+* [Z3-UI History](docs/history.md)
 * Redux Store Map
 
 # Customization
 
-NexUI supports customization of the user interface, to allow per instance branding and other features. Current customization features include:
+Z3-UI supports customization of the user interface, to allow per instance branding and other features. Current customization features include:
 
 * Instance name, site logo and favicon.
 * Custom pages: e.g About, Terms of Service page, Privacy Policy page, Copyright Policy (DMCA).
 * Promo panel custom links (e.g. link to blog or documentation external site).
-* NexUI extensions.
+* Z3-UI extensions.
 * Default instance settings (e.g. default theme).
 
 Customization details can be found in the [Customization documentation](docs/customization.md)
@@ -262,22 +262,22 @@ add_header Content-Security-Policy "upgrade-insecure-requests;script-src 'self';
 
 # License & Credits
 
-NexUI is free software: you can redistribute it and/or modify
+Z3-UI is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
-NexUI is distributed in the hope that it will be useful,
+Z3-UI is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU Affero General Public License for more details.
 
 You should have received a copy of the GNU Affero General Public License
-along with NexUI.  If not, see <https://www.gnu.org/licenses/>.
+along with Z3-UI.  If not, see <https://www.gnu.org/licenses/>.
 
-NexUI make use of code from other opensource and free software under various licenses:
+Z3-UI make use of code from other opensource and free software under various licenses:
 
-- NexUI is a fork of [Mangane](https://github.com/BDX-town/Mangane) a frontend for Rebased, Pleroma and Mastodon, licensed under the same license.
+- Z3-UI is a fork of [Mangane](https://github.com/BDX-town/Mangane) a frontend for Rebased, Pleroma and Mastodon, licensed under the same license.
 
 - `static/sounds/chat.mp3` and `static/sounds/chat.oga` are from [notificationsounds.com](https://notificationsounds.com/notification-sounds/intuition-561) licensed under CC BY 4.0.
 
