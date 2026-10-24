@@ -1,4 +1,4 @@
-#### Forked from [BDX-town/Mangane](https://github.com/BDX-town/Mangane)
+#### Forked from [DeprecatedNexifyHub/NexUI](https://github.com/DeprecatedNexifyHub/NexUI)
 
 # Z3-UI
 
