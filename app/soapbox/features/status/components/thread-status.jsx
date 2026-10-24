@@ -1,0 +1,32 @@
+import classNames from 'classnames';
+import { OrderedSet as ImmutableOrderedSet } from 'immutable';
+import React from 'react';
+import StatusContainer from 'soapbox/containers/status_container';
+import PlaceholderStatus from 'soapbox/features/placeholder/components/placeholder_status';
+import { useAppSelector } from 'soapbox/hooks';
+/** Status with reply-connector in threads. */
+const ThreadStatus = props => {
+  const {
+    id,
+    focusedStatusId
+  } = props;
+  const replyToId = useAppSelector(state => state.contexts.inReplyTos.get(id));
+  const replyCount = useAppSelector(state => state.contexts.replies.get(id, ImmutableOrderedSet()).size);
+  const isLoaded = useAppSelector(state => Boolean(state.statuses.get(id)));
+  const renderConnector = () => {
+    const isConnectedTop = replyToId && replyToId !== focusedStatusId;
+    const isConnectedBottom = replyCount > 0;
+    const isConnected = isConnectedTop || isConnectedBottom;
+    if (!isConnected) return null;
+    return <div className={classNames('thread__connector', {
+      'thread__connector--top': isConnectedTop,
+      'thread__connector--bottom': isConnectedBottom
+    })} />;
+  };
+  return <div className='thread__status'>
+      {renderConnector()}
+      {isLoaded ?
+    <StatusContainer {...props} /> : <PlaceholderStatus thread />}
+    </div>;
+};
+export default ThreadStatus;

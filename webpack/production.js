@@ -85,7 +85,7 @@ module.exports = merge(sharedConfig, {
       ],
       ServiceWorker: {
         cacheName: 'soapbox',
-        entry: join(__dirname, '../app/soapbox/service_worker/entry.ts'),
+        entry: join(__dirname, '../app/soapbox/service_worker/entry.js'),
         events: true,
         minify: true,
       },

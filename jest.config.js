@@ -14,17 +14,16 @@ module.exports = {
     'raf/polyfill',
   ],
   'setupFilesAfterEnv': [
-    '<rootDir>/app/soapbox/jest/test-setup.ts',
+    '<rootDir>/app/soapbox/jest/test-setup.js',
   ],
   'collectCoverageFrom': [
     'app/soapbox/**/*.js',
-    'app/soapbox/**/*.ts',
-    'app/soapbox/**/*.tsx',
+    'app/soapbox/**/*.jsx',
     '!app/soapbox/features/emoji/emoji_compressed.js',
     '!app/soapbox/locales/locale-data/*.js',
-    '!app/soapbox/service_worker/entry.ts',
-    '!app/soapbox/jest/test-setup.ts',
-    '!app/soapbox/jest/test-helpers.ts',
+    '!app/soapbox/service_worker/entry.js',
+    '!app/soapbox/jest/test-setup.js',
+    '!app/soapbox/jest/test-helpers.js',
   ],
   'coverageDirectory': '<rootDir>/.coverage/',
   'coverageReporters': ['html', 'text', 'text-summary', 'cobertura'],
@@ -37,7 +36,7 @@ module.exports = {
     // https://github.com/uuidjs/uuid/pull/616#issuecomment-1111012599
     '^uuid$': require.resolve('uuid'),
   },
-  'testMatch': ['**/*/__tests__/**/?(*.|*-)+(test).(ts|js)?(x)'],
+  'testMatch': ['**/*/__tests__/**/?(*.|*-)+(test).(js|jsx)'],
   'testEnvironment': 'jsdom',
   'transformIgnorePatterns': [
     // FIXME: react-sticky-box doesn't provide a CJS build, so transform it for now
@@ -47,7 +46,7 @@ module.exports = {
     // `/node_modules/(?!.+\\.(${ASSET_EXTS})$)`,
   ],
   'transform': {
-    '\\.[jt]sx?$': 'babel-jest',
+    '\\.jsx?$': 'babel-jest',
     [`\\.(${ASSET_EXTS})$`]: '<rootDir>/jest/assetTransformer.js',
   },
 };

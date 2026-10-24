@@ -3,7 +3,6 @@ module.exports = {
 
   extends: [
     'eslint:recommended',
-    'plugin:import/typescript',
     'plugin:compat/recommended',
   ],
 
@@ -27,7 +26,6 @@ module.exports = {
     'import',
     'promise',
     'react-hooks',
-    '@typescript-eslint',
   ],
 
   parserOptions: {
@@ -43,7 +41,7 @@ module.exports = {
     react: {
       version: 'detect',
     },
-    'import/extensions': ['.js', '.jsx', '.ts', '.tsx'],
+    'import/extensions': ['.js', '.jsx'],
     'import/ignore': [
       'node_modules',
       '\\.(css|scss|json)$',
@@ -117,8 +115,7 @@ module.exports = {
     'no-undef': 'error',
     'no-unreachable': 'error',
     'no-unused-expressions': 'error',
-    'no-unused-vars': 'off',
-    '@typescript-eslint/no-unused-vars': [
+    'no-unused-vars': [
       'error',
       {
         vars: 'all',
@@ -230,8 +227,6 @@ module.exports = {
         js: 'never',
         mjs: 'ignorePackages',
         jsx: 'never',
-        ts: 'never',
-        tsx: 'never',
       },
     ],
     'import/newline-after-import': 'error',
@@ -266,20 +261,13 @@ module.exports = {
         alphabetize: { order: 'asc' },
       },
     ],
-    '@typescript-eslint/no-duplicate-imports': 'error',
+    'no-duplicate-imports': 'error',
 
     'promise/catch-or-return': 'error',
 
     'react-hooks/rules-of-hooks': 'error',
   },
   overrides: [
-    {
-      files: ['**/*.ts', '**/*.tsx'],
-      rules: {
-        'no-undef': 'off', // https://stackoverflow.com/a/69155899
-      },
-      parser: '@typescript-eslint/parser',
-    },
     {
       // Only enforce JSDoc comments on UI components for now.
       // https://www.npmjs.com/package/eslint-plugin-jsdoc

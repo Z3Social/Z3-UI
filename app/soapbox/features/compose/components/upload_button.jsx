@@ -1,0 +1,44 @@
+import React, { useRef } from 'react';
+import { defineMessages, useIntl } from 'react-intl';
+import { IconButton } from 'soapbox/components/ui';
+import { useAppSelector } from 'soapbox/hooks';
+const messages = defineMessages({
+  upload: {
+    id: 'upload_button.label',
+    defaultMessage: 'Add media attachment'
+  }
+});
+const onlyImages = types => {
+  return Boolean(types && types.every(type => type.startsWith('image/')));
+};
+const UploadButton = ({
+  disabled = false,
+  unavailable = false,
+  onSelectFile,
+  resetFileKey
+}) => {
+  const intl = useIntl();
+  const fileElement = useRef(null);
+  const attachmentTypes = useAppSelector(state => state.instance.configuration.getIn(['media_attachments', 'supported_mime_types']));
+  const handleChange = e => {
+    if (e.target.files?.length) {
+      onSelectFile(e.target.files);
+    }
+  };
+  const handleClick = () => {
+    fileElement.current?.click();
+  };
+  if (unavailable) {
+    return null;
+  }
+  const src = onlyImages(attachmentTypes) ? require('@tabler/icons/photo.svg') : require('@tabler/icons/paperclip.svg');
+  return <div>
+      <IconButton src={src} className='text-gray-400 hover:text-gray-600' title={intl.formatMessage(messages.upload)} disabled={disabled} onClick={handleClick} />
+
+      <label>
+        <span className='sr-only'>{intl.formatMessage(messages.upload)}</span>
+        <input key={resetFileKey} ref={fileElement} type='file' multiple accept={attachmentTypes && attachmentTypes.toArray().join(',')} onChange={handleChange} disabled={disabled} className='hidden' />
+      </label>
+    </div>;
+};
+export default UploadButton;

@@ -1,0 +1,17 @@
+const BUNDLE_FETCH_REQUEST = 'BUNDLE_FETCH_REQUEST';
+const BUNDLE_FETCH_SUCCESS = 'BUNDLE_FETCH_SUCCESS';
+const BUNDLE_FETCH_FAIL = 'BUNDLE_FETCH_FAIL';
+const fetchBundleRequest = skipLoading => ({
+  type: BUNDLE_FETCH_REQUEST,
+  skipLoading
+});
+const fetchBundleSuccess = skipLoading => ({
+  type: BUNDLE_FETCH_SUCCESS,
+  skipLoading
+});
+const fetchBundleFail = (error, skipLoading) => ({
+  type: BUNDLE_FETCH_FAIL,
+  error,
+  skipLoading
+});
+export { BUNDLE_FETCH_REQUEST, BUNDLE_FETCH_SUCCESS, BUNDLE_FETCH_FAIL, fetchBundleRequest, fetchBundleSuccess, fetchBundleFail };

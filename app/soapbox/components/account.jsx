@@ -1,0 +1,154 @@
+import * as React from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import HoverRefWrapper from 'soapbox/components/hover_ref_wrapper';
+import VerificationBadge from 'soapbox/components/verification_badge';
+import ActionButton from 'soapbox/features/ui/components/action-button';
+import { useAppSelector, useOnScreen } from 'soapbox/hooks';
+import { getAcct } from 'soapbox/utils/accounts';
+import { displayFqn } from 'soapbox/utils/state';
+import RelativeTimestamp from './relative_timestamp';
+import { Avatar, EmojiReact, HStack, Icon, IconButton, Stack, Text } from './ui';
+const InstanceFavicon = ({
+  account
+}) => {
+  const history = useHistory();
+  const handleClick = e => {
+    e.stopPropagation();
+    history.push(`/timeline/${account.domain}`);
+  };
+  return <button className='w-4 h-4 flex-none focus:ring-primary-500 focus:ring-2 focus:ring-offset-2' onClick={handleClick}>
+      <img src={account.favicon} alt='' title={account.domain} className='w-full max-h-full' />
+    </button>;
+};
+const ProfilePopper = ({
+  condition,
+  wrapper,
+  children
+}) => condition ? wrapper(children) : children;
+const Account = ({
+  account,
+  actionType,
+  action,
+  actionIcon,
+  actionTitle,
+  actionAlignment = 'center',
+  avatarSize = 42,
+  hidden = false,
+  hideActions = false,
+  onActionClick,
+  showProfileHoverCard = true,
+  timestamp,
+  timestampUrl,
+  futureTimestamp = false,
+  withAccountNote = false,
+  withDate = false,
+  withLinkToProfile = true,
+  withRelationship = true,
+  showEdit = false,
+  emoji
+}) => {
+  const overflowRef = React.useRef(null);
+  const actionRef = React.useRef(null);
+  const isOnScreen = useOnScreen(overflowRef);
+  const [style, setStyle] = React.useState({
+    visibility: 'hidden'
+  });
+  const me = useAppSelector(state => state.me);
+  const username = useAppSelector(state => account ? getAcct(account, displayFqn(state)) : null);
+  const handleAction = () => {
+    onActionClick(account);
+  };
+  const renderAction = () => {
+    if (action) {
+      return action;
+    }
+    if (hideActions) {
+      return null;
+    }
+    if (onActionClick && actionIcon) {
+      return <IconButton src={actionIcon} title={actionTitle} onClick={handleAction} className='bg-transparent text-gray-600 dark:text-gray-600 hover:text-gray-700 dark:hover:text-gray-500' iconClassName='w-4 h-4' />;
+    }
+    if (account.id !== me) {
+      return <ActionButton account={account} actionType={actionType} />;
+    }
+    return null;
+  };
+  React.useEffect(() => {
+    const style = {};
+    const actionWidth = actionRef.current?.clientWidth || 0;
+    if (overflowRef.current) {
+      style.maxWidth = overflowRef.current.clientWidth - 30 - avatarSize - actionWidth;
+    } else {
+      style.visibility = 'hidden';
+    }
+    setStyle(style);
+  }, [isOnScreen, overflowRef, actionRef]);
+  if (!account) {
+    return null;
+  }
+  if (hidden) {
+    return <>
+        {account.display_name}
+        {account.username}
+      </>;
+  }
+  if (withDate) timestamp = account.created_at;
+  const LinkEl = withLinkToProfile ? Link : 'div';
+  return <div data-testid='account' className='flex-shrink-0 group block w-full' ref={overflowRef}>
+      <HStack alignItems={actionAlignment} justifyContent='between'>
+        <HStack alignItems={withAccountNote ? 'top' : 'center'} space={3}>
+          <ProfilePopper condition={showProfileHoverCard} wrapper={children => <HoverRefWrapper className='relative' accountId={account.id} inline>{children}</HoverRefWrapper>}>
+            <LinkEl to={`/@${account.acct}`} title={account.acct} onClick={event => event.stopPropagation()}>
+              <Avatar src={account.avatar} size={avatarSize} />
+              {emoji && <EmojiReact className='w-5 h-5 absolute -bottom-1.5 -right-1.5' emoji={emoji} />}
+            </LinkEl>
+          </ProfilePopper>
+
+          <div className='flex-grow'>
+            <ProfilePopper condition={showProfileHoverCard} wrapper={children => <HoverRefWrapper accountId={account.id} inline>{children}</HoverRefWrapper>}>
+              <LinkEl to={`/@${account.acct}`} title={account.acct} onClick={event => event.stopPropagation()}>
+                <div className='flex items-center space-x-1 flex-grow' style={style}>
+                  <Text size='sm' weight='semibold' truncate dangerouslySetInnerHTML={{
+                  __html: account.display_name_html
+                }} />
+
+                  {account.verified && <VerificationBadge />}
+                </div>
+              </LinkEl>
+            </ProfilePopper>
+
+            <Stack space={withAccountNote ? 1 : 0}>
+              <HStack alignItems='center' space={1} style={style}>
+                <Text theme='muted' size='sm' truncate>@{username}</Text>
+
+                {account.favicon && <InstanceFavicon account={account} />}
+
+                {timestamp ? <>
+                    <Text tag='span' theme='muted' size='sm'>&middot;</Text>
+
+                    {timestampUrl ? <Link to={timestampUrl} className='hover:underline'>
+                        <RelativeTimestamp timestamp={timestamp} theme='muted' size='sm' className='whitespace-nowrap' futureDate={futureTimestamp} />
+                      </Link> : <RelativeTimestamp timestamp={timestamp} theme='muted' size='sm' className='whitespace-nowrap' futureDate={futureTimestamp} />}
+                  </> : null}
+
+                {showEdit ? <>
+                    <Text tag='span' theme='muted' size='sm'>&middot;</Text>
+
+                    <Icon className='h-5 w-5 text-gray-700 dark:text-gray-600' src={require('@tabler/icons/pencil.svg')} />
+                  </> : null}
+              </HStack>
+
+              {withAccountNote && <Text size='sm' dangerouslySetInnerHTML={{
+              __html: account.note_emojified
+            }} className='mr-2' />}
+            </Stack>
+          </div>
+        </HStack>
+
+        <div ref={actionRef}>
+          {withRelationship ? renderAction() : null}
+        </div>
+      </HStack>
+    </div>;
+};
+export default Account;

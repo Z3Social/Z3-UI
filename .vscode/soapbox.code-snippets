@@ -16,16 +16,13 @@
   // 	"description": "Log output to console"
   // }
   "React component": {
-    "scope": "typescriptreact",
+    "scope": "javascriptreact,javascript",
     "prefix": ["component", "react component"],
     "body": [
       "import React from 'react';",
       "",
-      "interface I${1:Component} {",
-      "}",
-      "",
       "/** ${1:Component} component. */",
-      "const ${1:Component}: React.FC<I${1:Component}> = () => {",
+      "const ${1:Component} = () => {",
       "  return (",
       "    <></>",
       "  );",
@@ -36,7 +33,7 @@
     "description": "React component"
   },
   "React component test": {
-    "scope": "typescriptreact",
+    "scope": "javascriptreact,javascript",
     "prefix": ["test", "component test", "react component test"],
     "body": [
       "import React from 'react';",

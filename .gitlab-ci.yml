@@ -41,8 +41,6 @@ lint-js:
     changes:
       - "**/*.js"
       - "**/*.jsx"
-      - "**/*.ts"
-      - "**/*.tsx"
       - ".eslintignore"
       - ".eslintrc.js"
 
