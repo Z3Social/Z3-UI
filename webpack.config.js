@@ -1,6 +1,6 @@
 require('dotenv').config();
 
-const { NODE_ENV } = process.env;
+const NODE_ENV = process.env.NODE_ENV || 'production';
 
 switch (NODE_ENV) {
   case 'development':

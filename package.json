@@ -21,7 +21,9 @@
   "scripts": {
     "start": "npx webpack-dev-server",
     "dev": "npm run start",
-    "build": "npx webpack",
+    "build": "cross-env NODE_ENV=production webpack",
+    "build:dev": "cross-env NODE_ENV=development webpack",
+    "build:production": "cross-env NODE_ENV=production webpack",
     "jsdoc": "npx jsdoc -c jsdoc.conf.js",
     "manage:translations": "node ./webpack/translationRunner.js",
     "test": "npx cross-env NODE_ENV=test npx jest",

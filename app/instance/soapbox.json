@@ -1,0 +1,19 @@
+{
+  "instanceName": "ZЗ Social",
+  "siteTitle": "ZЗ Social",
+  "logo": "/media/logo-dark.svg",
+  "logoDarkMode": "/media/logo-dark.svg",
+  "brandColor": "#0475c2",
+  "defaultSettings": {
+    "autoPlayGif": true,
+    "themeMode": "dark"
+  },
+  "copyright": "©2026 by ZЗ Social (z3.social).",
+  "navlinks": {
+    "homeFooter": [
+      { "title": "Home", "url": "/" },
+      { "title": "Groups", "url": "/groups" },
+      { "title": "About", "url": "/about" }
+    ]
+  }
+}

@@ -10,7 +10,7 @@ const { merge } = require('webpack-merge');
 const sharedConfig = require('./shared');
 
 const { FE_SUBDIRECTORY } = require(join(__dirname, '..', 'app', 'soapbox', 'build_config'));
-const joinPublicPath = (...paths) => join(FE_SUBDIRECTORY, ...paths);
+const joinPublicPath = (...paths) => '/' + paths.map(p => String(p).replace(/^\/+/, '')).join('/');
 
 module.exports = merge(sharedConfig, {
   mode: 'production',
@@ -129,7 +129,7 @@ module.exports = merge(sharedConfig, {
         requestTypes: ['navigate'],
       }],
       safeToUseOptionalCaches: true,
-      appShell: join(FE_SUBDIRECTORY, '/'),
+      appShell: '/',
     }),
   ],
 });

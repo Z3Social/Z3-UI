@@ -55,7 +55,7 @@ module.exports = {
     chunkFilename: 'packs/js/[name]-[chunkhash].chunk.js',
     hotUpdateChunkFilename: 'packs/js/[id]-[contenthash].hot-update.js',
     path: output.path,
-    publicPath: join(FE_SUBDIRECTORY, '/'),
+    publicPath: '/',
   },
 
   optimization: {
