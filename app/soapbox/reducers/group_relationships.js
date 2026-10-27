@@ -2,10 +2,18 @@ import { Map as ImmutableMap, fromJS } from 'immutable';
 
 import { GROUP_RELATIONSHIPS_FETCH_SUCCESS, GROUP_JOIN_SUCCESS, GROUP_LEAVE_SUCCESS } from '../actions/groups';
 
-const normalizeRelationship = (state, relationship) => state.set(relationship.id, fromJS(relationship));
+const normalizeRelationship = (state, relationship) => {
+  if (!relationship || !relationship.id) return state;
+  const immRel = fromJS(relationship);
+  state = state.set(relationship.id, immRel);
+  if (relationship.slug) {
+    state = state.set(relationship.slug, immRel);
+  }
+  return state;
+};
 
 const normalizeRelationships = (state, relationships) => {
-  relationships.forEach(relationship => {
+  (relationships || []).forEach(relationship => {
     state = normalizeRelationship(state, relationship);
   });
 

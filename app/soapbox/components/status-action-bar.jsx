@@ -684,9 +684,7 @@ const StatusActionBar = ({
           {reblogButton}
         </DropdownMenuContainer> : reblogButton}
 
-      {features.emojiReacts ? <EmojiButtonWrapper statusId={status.id}>
-          <StatusActionButton title={meEmojiTitle} icon={require('@tabler/icons/heart.svg')} filled color='accent' active={Boolean(meEmojiReact)} count={emojiReactCount} emoji={meEmojiReact} text={withLabels ? meEmojiTitle : undefined} />
-        </EmojiButtonWrapper> : <StatusActionButton title={intl.formatMessage(messages.favourite)} icon={require('@tabler/icons/heart.svg')} color='accent' filled onClick={handleFavouriteClick} active={Boolean(meEmojiReact)} count={favouriteCount} text={withLabels ? meEmojiTitle : undefined} />}
+      <StatusActionButton title={intl.formatMessage(messages.favourite)} icon={require('@tabler/icons/heart.svg')} color='accent' filled onClick={handleFavouriteClick} active={Boolean(status.favourited)} count={favouriteCount} text={withLabels ? intl.formatMessage(messages.favourite) : undefined} />
 
       {canShare && <StatusActionButton title={intl.formatMessage(messages.share)} icon={require('@tabler/icons/upload.svg')} onClick={handleShareClick} />}
 

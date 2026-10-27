@@ -1,4 +1,4 @@
-import * as React from 'react';
+﻿import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { fetchAccount } from 'soapbox/actions/accounts';
 import { prepareRequest } from 'soapbox/actions/consumer-auth';
@@ -17,8 +17,11 @@ const LandingPage = () => {
   const accounts = useAppSelector(state => state.accounts);
   const pepeOpen = useAppSelector(state => state.verification.instance.get('registrations') === true);
   React.useEffect(() => {
-    const staff = instance.pleroma.getIn(['metadata', 'staff_accounts']).map(s => s.split('/').pop());
-    staff.forEach(s => dispatch(fetchAccount(s)));
+    const staffList = instance.pleroma && instance.pleroma.getIn ? instance.pleroma.getIn(['metadata', 'staff_accounts']) : null;
+    if (staffList && typeof staffList.map === 'function') {
+      const staff = staffList.map(s => s.split('/').pop());
+      staff.forEach(s => dispatch(fetchAccount(s)));
+    }
   }, [instance, dispatch]);
   const staffAccounts = React.useMemo(() => {
     // eslint-disable-next-line eqeqeq
@@ -29,7 +32,7 @@ const LandingPage = () => {
   const userCount = instance.stats.get('user_count');
   const homeDescription = React.useMemo(() => {
     const format = new Intl.NumberFormat().format(userCount);
-    return soapboxConfig.homeDescription.replace('[users]', format);
+    return (soapboxConfig.homeDescription || '').replace('[users]', format);
   }, [userCount, soapboxConfig]);
 
   /** Registrations are closed */

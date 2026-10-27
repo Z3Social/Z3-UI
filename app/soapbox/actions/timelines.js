@@ -1,4 +1,4 @@
-import { Map as ImmutableMap, OrderedSet as ImmutableOrderedSet } from 'immutable';
+﻿import { Map as ImmutableMap, OrderedSet as ImmutableOrderedSet } from 'immutable';
 import { getSettings } from 'soapbox/actions/settings';
 import { normalizeStatus } from 'soapbox/normalizers';
 import { shouldFilter } from 'soapbox/utils/timelines';
@@ -155,8 +155,7 @@ const expandHomeTimeline = ({
   const endpoint = accountId ? `/api/v1/accounts/${accountId}/statuses` : '/api/v1/timelines/home';
   const params = {
     max_id: maxId,
-    reply_visibility: 'self'
-  };
+    };
   if (accountId) {
     params.exclude_replies = true;
     params.with_muted = true;

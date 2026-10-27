@@ -9,10 +9,18 @@ import {
 
 const initialState = ImmutableMap();
 
-const normalizeGroup = (state, group) => state.set(group.id, fromJS(group));
+const normalizeGroup = (state, group) => {
+  if (!group || !group.id) return state;
+  const immGroup = fromJS(group);
+  state = state.set(group.id, immGroup);
+  if (group.slug) {
+    state = state.set(group.slug, immGroup);
+  }
+  return state;
+};
 
 const normalizeGroups = (state, groups) => {
-  groups.forEach(group => {
+  (groups || []).forEach(group => {
     state = normalizeGroup(state, group);
   });
 

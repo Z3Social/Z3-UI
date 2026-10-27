@@ -20,7 +20,7 @@ const messages = defineMessages({
   tab_admin: { id: 'groups.tab_admin', defaultMessage: 'Manage' },
 });
 
-const mapStateToProps = (state, { activeTab }) => ({
+const mapStateToProps = (state, { activeTab = "featured" }) => ({
   groupIds: state.getIn(['group_lists', activeTab]),
 });
 
@@ -84,7 +84,7 @@ class Groups extends ImmutablePureComponent {
         {showCreateForm && <GroupCreate /> }
 
         <div className='group-card-list'>
-          {groupIds.map(id => <GroupCard key={id} id={id} />)}
+          {(groupIds || ImmutableList()).map(id => <GroupCard key={id} id={id} />)}
         </div>
       </div>
     );

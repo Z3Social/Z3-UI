@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { FormattedMessage, defineMessages, useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { changeSettingImmediate } from 'soapbox/actions/settings';
@@ -35,15 +35,15 @@ const DevelopersChallenge = () => {
     setAnswer(e.target.value);
   };
   const handleSubmit = () => {
-    if (answer === 'hubnexify') {
+    if (answer === 'socialz3') {
       dispatch(changeSettingImmediate(['isDeveloper'], true));
       dispatch(snackbar.success(intl.formatMessage(messages.success)));
     } else {
       dispatch(snackbar.error(intl.formatMessage(messages.fail)));
     }
   };
-  const challenge = `function nexifyhub() {
-  return 'nexify|hub'.split('|').reverse().join('');
+  const challenge = `function z3social() {
+  return 'z3|social'.split('|').reverse().join('');
 }`;
   return <Column label={intl.formatMessage(messages.heading)}>
       <Form onSubmit={handleSubmit}>

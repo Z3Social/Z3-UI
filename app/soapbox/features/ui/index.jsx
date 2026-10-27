@@ -28,8 +28,8 @@ import { Layout } from 'soapbox/components/ui';
 import { useAppSelector, useOwnAccount, useSoapboxConfig, useFeatures } from 'soapbox/hooks';
 import AdminPage from 'soapbox/pages/admin_page';
 import DefaultPage from 'soapbox/pages/default_page';
-// import GroupsPage from 'soapbox/pages/groups_page';
-// import GroupPage from 'soapbox/pages/group_page';
+import GroupsPage from 'soapbox/pages/groups_page';
+import GroupPage from 'soapbox/pages/group_page';
 import HomePage from 'soapbox/pages/home_page';
 import ProfilePage from 'soapbox/pages/profile_page';
 import StatusPage from 'soapbox/pages/status_page';
@@ -41,8 +41,8 @@ import BackgroundShapes from './components/background_shapes';
 import Navbar from './components/navbar';
 import BundleContainer from './containers/bundle_container';
 import { Status, CommunityTimeline, PublicTimeline, RemoteTimeline, AccountTimeline, AccountGallery, HomeTimeline, Followers, Following, Conversations, HashtagTimeline, Notifications, FollowRequests, GenericNotFound, FavouritedStatuses, Blocks, DomainBlocks, Mutes, Filters, PinnedStatuses, Search,
-// Groups,
-// GroupTimeline,
+Groups,
+GroupTimeline,
 ListTimeline, Lists, Bookmarks,
 // GroupMembers,
 // GroupRemovedAccounts,
@@ -188,6 +188,8 @@ const SwitchingColumnsArea = ({
       <WrappedRoute path='/notifications' page={DefaultPage} component={Notifications} content={children} />
 
       <WrappedRoute path='/search' page={DefaultPage} component={Search} content={children} />
+      <WrappedRoute path='/groups' exact page={GroupsPage} component={Groups} content={children} />
+      <WrappedRoute path='/groups/:id' page={GroupPage} component={GroupTimeline} content={children} />
       {features.suggestions && <WrappedRoute path='/suggestions' publicRoute page={DefaultPage} component={FollowRecommendations} content={children} />}
       {features.profileDirectory && <WrappedRoute path='/directory' publicRoute page={DefaultPage} component={Directory} content={children} />}
 

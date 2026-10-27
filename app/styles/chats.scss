@@ -393,3 +393,129 @@
   font-size: 13px;
   opacity: 0.8;
 }
+
+
+/* ==========================================================================
+   Wix-Clone Native Direct Messages Dock (.chat-tab & .chat-panel)
+   ========================================================================== */
+.pane--main.pane--minimized {
+  position: fixed !important;
+  right: 20px !important;
+  bottom: 0 !important;
+  z-index: 900 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 52px !important;
+  min-height: 52px !important;
+  max-height: 52px !important;
+  width: auto !important;
+  min-width: 220px !important;
+  padding: 0 36px !important;
+  border-radius: 22px 22px 0 0 !important;
+  background: #0475c2 !important;
+  color: #ffffff !important;
+  border: 0 !important;
+  box-shadow: 0 -2px 14px rgba(0, 0, 0, 0.35) !important;
+  cursor: pointer !important;
+  transition: background 0.2s ease, transform 0.1s ease !important;
+  overflow: hidden !important;
+}
+
+.pane--main.pane--minimized:hover {
+  background: #035a96 !important;
+}
+
+.pane--main.pane--minimized .pane__header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 100% !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  cursor: pointer !important;
+}
+
+.pane--main.pane--minimized .pane__title {
+  display: inline-block !important;
+  color: #ffffff !important;
+  font-family: inherit !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+  text-align: center !important;
+  cursor: pointer !important;
+  border: 0 !important;
+  background: transparent !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+  white-space: nowrap !important;
+}
+
+.pane--main.pane--minimized .audio-toggle {
+  display: none !important;
+}
+
+.pane--main.pane--minimized .counter {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 20px !important;
+  height: 20px !important;
+  padding: 0 6px !important;
+  margin-right: 10px !important;
+  background: #ef4444 !important;
+  color: #ffffff !important;
+  border-radius: 9999px !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+}
+
+/* Wix-clone style when open/expanded */
+.pane--main:not(.pane--minimized) {
+  position: fixed !important;
+  right: 20px !important;
+  bottom: 0 !important;
+  width: 360px !important;
+  height: 520px !important;
+  max-height: calc(100vh - 90px) !important;
+  z-index: 900 !important;
+  background: #ffffff !important;
+  color: #1e293b !important;
+  border-radius: 12px 12px 0 0 !important;
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.5) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+}
+
+.dark .pane--main:not(.pane--minimized) {
+  background: #18191c !important;
+  color: #f1f5f9 !important;
+}
+
+.pane--main:not(.pane--minimized) .pane__header {
+  background: #0475c2 !important;
+  color: #ffffff !important;
+  padding: 14px 18px !important;
+  height: 50px !important;
+  border-radius: 12px 12px 0 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+
+.pane--main:not(.pane--minimized) .pane__title {
+  color: #ffffff !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  flex: 1 !important;
+  text-align: left !important;
+  background: transparent !important;
+  border: 0 !important;
+  cursor: pointer !important;
+}

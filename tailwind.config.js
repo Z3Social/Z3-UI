@@ -1,7 +1,7 @@
 const { parseColorMatrix } = require('./tailwind/colors');
 
 module.exports = {
-  content: ['./app/**/*.{html,js,ts,tsx}', './custom/instance/**/*.html'],
+  content: ['./app/**/*.{html,js,jsx,ts,tsx}', './custom/instance/**/*.html'],
   darkMode: 'class',
   theme: {
     screens: {

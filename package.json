@@ -1,12 +1,12 @@
 {
-  "name": "nexui",
+  "name": "z3-ui",
   "version": "1.0.0-beta.2",
-  "displayName": "NexUI",
-  "description": "The UI used for NexifyHub.com",
-  "homepage": "https://nexifyhub.com",
+  "displayName": "ZЗ Social",
+  "description": "Official frontend client for ZЗ Social (z3.social)",
+  "homepage": "https://z3.social",
   "repository": {
     "type": "git",
-    "url": "https://github.com/NexifyHub/NexUI"
+    "url": "https://github.com/Z3Social/Z3-UI"
   },
   "keywords": [
     "fediverse",
@@ -16,7 +16,7 @@
     "social"
   ],
   "bugs": {
-    "url": "https://github.com/NexifyHub/NexUI/issues"
+    "url": "https://github.com/Z3Social/Z3-UI/issues"
   },
   "scripts": {
     "start": "npx webpack-dev-server",
@@ -212,7 +212,7 @@
     "stylelint": "^13.7.2",
     "stylelint-config-standard": "^22.0.0",
     "stylelint-scss": "^3.18.0",
-    "tailwindcss": "^3.0.15",
+    "tailwindcss": "^3.4.17",
     "webpack-dev-server": "^4.9.1",
     "yargs": "^16.0.3"
   }

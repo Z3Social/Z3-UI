@@ -113,6 +113,8 @@ const SidebarNavigation = () => {
 
         <SidebarNavigationLink to='/search' icon={require('@tabler/icons/search.svg')} text={<FormattedMessage id='tabs_bar.search' defaultMessage='Search' />} />
 
+        <SidebarNavigationLink to='/groups' icon={require('@tabler/icons/users.svg')} text={<FormattedMessage id='tabs_bar.groups' defaultMessage='Groups' />} />
+
         {account && <>
             <SidebarNavigationLink to='/notifications' icon={require('@tabler/icons/bell.svg')} count={notificationCount} text={<FormattedMessage id='tabs_bar.notifications' defaultMessage='Notifications' />} />
 

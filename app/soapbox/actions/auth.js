@@ -214,7 +214,7 @@ const normalizeUsername = username => {
 export const logIn = (username, password) => dispatch => dispatch(getAuthApp()).then(() => {
   return dispatch(createUserToken(normalizeUsername(username), password));
 }).catch(error => {
-  if ((error.response?.data).error === 'mfa_required') {
+  if (error.response?.data?.error === 'mfa_required') {
     // If MFA is required, throw the error and handle it in the component.
     throw error;
   } else {

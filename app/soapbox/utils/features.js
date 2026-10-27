@@ -194,12 +194,12 @@ const getInstanceFeatures = instance => {
      * @see GET /api/v1/pleroma/statuses/:id/reactions/:emoji?
      * @see DELETE /api/v1/pleroma/statuses/:id/reactions/:emoji
      */
-    emojiReacts: (v.software === PLEROMA || v.software === AKKOMA) && gte(v.version, '2.0.0'),
+    emojiReacts: false,
     /**
      * The backend allows only RGI ("Recommended for General Interchange") emoji reactions.
      * @see PUT /api/v1/pleroma/statuses/:id/reactions/:emoji
      */
-    emojiReactsRGI: (v.software === PLEROMA || v.software === AKKOMA) && gte(v.version, '2.2.49'),
+    emojiReactsRGI: false,
     /**
      * Sign in with an Ethereum wallet.
      * @see POST /oauth/token
@@ -365,7 +365,7 @@ const getInstanceFeatures = instance => {
      * Ability to quote posts in statuses.
      * @see POST /api/v1/statuses
      */
-    quotePosts: any([(v.software === PLEROMA || v.software === AKKOMA) && v.build === SOAPBOX && gte(v.version, '2.4.50'), features.includes('quote_posting'), instance.feature_quote === true]),
+    quotePosts: true,
     /**
      * Interact with statuses from another instance while logged-out.
      * @see POST /api/v1/pleroma/remote_interaction

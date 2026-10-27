@@ -61,11 +61,14 @@ const Header = () => {
     }) => {
       return dispatch(verifyCredentials(access_token))
       // Refetch the instance for authenticated fetch
-      .then(() => dispatch(fetchInstance())).then(() => setShouldRedirect(true));
+      .then(() => dispatch(fetchInstance())).then(() => { setShouldRedirect(true); window.location.href = '/'; });
     }).catch(error => {
       setLoading(false);
       const data = error.response?.data;
       if (data?.error === 'mfa_required') {
+        setMfaToken(data.mfa_token);
+      } else {
+        alert(data?.error_description || error.message || 'Login failed');
         setMfaToken(data.mfa_token);
       }
     });

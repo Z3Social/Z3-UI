@@ -1,3 +1,4 @@
+import GifButton from './gif_button';
 import classNames from 'classnames';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
@@ -89,6 +90,24 @@ class ComposeForm extends ImmutablePureComponent {
 
   static defaultProps = {
     showSearch: false,
+  };
+
+  
+  handleGifPick = async (gifUrl, gifData) => {
+    try {
+      const res = await fetch('/api/v1/media', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ url: gifUrl, description: gifData?.title || 'GIF' }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (this.props.onUploadMediaSuccess) {
+          this.props.onUploadMediaSuccess(data);
+        }
+      }
+    } catch (e) {}
   };
 
   handleChange = (e) => {
@@ -376,6 +395,7 @@ class ComposeForm extends ImmutablePureComponent {
         >
           <div className='flex items-center space-x-2'>
             {features.media && <UploadButtonContainer />}
+            <GifButton onSelectGif={this.handleGifPick} disabled={this.props.isUploading} />
             <EmojiPickerDropdown onPickEmoji={this.handleEmojiPick} />
             {features.polls && <PollButtonContainer />}
             {features.privacyScopes && <PrivacyDropdownContainer />}

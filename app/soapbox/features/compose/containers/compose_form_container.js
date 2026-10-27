@@ -74,6 +74,9 @@ const mapDispatchToProps = (dispatch, { intl }) => ({
   onPickEmoji(position, data, needsSpace) {
     dispatch(insertEmojiCompose(position, data, needsSpace));
   },
+  onUploadMediaSuccess(media) {
+    dispatch({ type: 'COMPOSE_UPLOAD_SUCCESS', media, skipLoading: true });
+  },
 
 });
 
