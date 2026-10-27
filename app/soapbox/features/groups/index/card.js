@@ -1,4 +1,5 @@
 import React from 'react';
+import { Map as ImmutableMap } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import ImmutablePureComponent from 'react-immutable-pure-component';
 import { defineMessages, injectIntl } from 'react-intl';
@@ -30,7 +31,8 @@ class GroupCard extends ImmutablePureComponent {
     }
 
     getRole() {
-      const { intl, relationships } = this.props;
+      const { intl } = this.props;
+      const relationships = this.props.relationships || ImmutableMap();
 
       if (relationships.get('admin')) return intl.formatMessage(messages.role_admin);
       if (relationships.get('member')) return intl.formatMessage(messages.role_member);
@@ -39,6 +41,10 @@ class GroupCard extends ImmutablePureComponent {
 
     render() {
       const { intl, group } = this.props;
+
+      // Groups can arrive before their relationship data; skip incomplete cards safely.
+      if (!group) return null;
+
       const coverImageUrl = group.get('cover_image_url');
       const role = this.getRole();
 
