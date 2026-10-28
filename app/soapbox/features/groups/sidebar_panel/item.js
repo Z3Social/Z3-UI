@@ -5,6 +5,8 @@ import { defineMessages, injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import { HStack, Text } from 'soapbox/components/ui';
+
 import { shortNumberFormat } from '../../../utils/numbers';
 
 const messages = defineMessages({
@@ -21,28 +23,33 @@ export default @connect(mapStateToProps)
 @injectIntl
 class Item extends ImmutablePureComponent {
 
-    static propTypes = {
-      group: ImmutablePropTypes.map,
-      relationships: ImmutablePropTypes.map,
-    }
+  static propTypes = {
+    group: ImmutablePropTypes.map,
+    relationships: ImmutablePropTypes.map,
+  }
 
-    render() {
-      const { intl, group, relationships } = this.props;
+  render() {
+    const { intl, group, relationships } = this.props;
 
-      // Wait for relationships
-      if (!relationships) return null;
+    // Wait for relationships
+    if (!group || !relationships) return null;
 
-      const unreadCount = relationships.get('unread_count');
+    const unreadCount = relationships.get('unread_count') || 0;
 
-      return (
-        <Link to={`/groups/${group.get('id')}`} className='group-sidebar-panel__item'>
-          <div className='group-sidebar-panel__item__title'>{group.get('title')}</div>
-          <div className='group-sidebar-panel__item__meta'>
-            {unreadCount > 0 && <span className='group-sidebar-panel__item__meta__unread'>{shortNumberFormat(unreadCount)} {intl.formatMessage(messages.new_statuses)}</span>}
-            {unreadCount === 0 && <span>{intl.formatMessage(messages.no_recent_activity)}</span>}
-          </div>
-        </Link>
-      );
-    }
+    return (
+      <Link
+        to={`/groups/${group.get('id')}`}
+        className='flex items-center justify-between gap-2 rounded-lg px-2 py-1.5 hover:bg-gray-100 dark:hover:bg-slate-700/60'
+      >
+        <Text tag='span' weight='medium' size='sm' truncate>{group.get('title')}</Text>
+        {unreadCount > 0
+          ? <HStack space={1} alignItems='center' className='shrink-0 text-primary-600 dark:text-accent-300'>
+            <Text tag='span' size='sm' weight='semibold'>{shortNumberFormat(unreadCount)}</Text>
+            <Text tag='span' size='sm' theme='muted'>{intl.formatMessage(messages.new_statuses)}</Text>
+          </HStack>
+          : <Text tag='span' size='sm' theme='muted' className='shrink-0'>{intl.formatMessage(messages.no_recent_activity)}</Text>}
+      </Link>
+    );
+  }
 
 }

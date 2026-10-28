@@ -1,11 +1,11 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import ImmutablePureComponent from 'react-immutable-pure-component';
 import { defineMessages, injectIntl } from 'react-intl';
 import { NavLink } from 'react-router-dom';
 
-import { Button } from 'soapbox/components/ui';
+import { Button, HStack } from 'soapbox/components/ui';
 
 import DropdownMenuContainer from '../../../../containers/dropdown_menu_container';
 
@@ -34,14 +34,12 @@ class Header extends ImmutablePureComponent {
     const { group, relationships, intl } = this.props;
 
     if (!relationships) {
-      return '';
+      return null;
     } else if (!relationships.get('member')) {
-      return <Button className='logo-button' text={intl.formatMessage(messages.join)} onClick={this.toggle} />;
-    } else if (relationships.get('member')) {
-      return <Button className='logo-button' text={intl.formatMessage(messages.leave, { name: group.get('title') })} onClick={this.toggle} />;
+      return <Button theme='accent' text={intl.formatMessage(messages.join)} onClick={this.toggle} />;
+    } else {
+      return <Button theme='accent' text={intl.formatMessage(messages.leave, { name: group.get('title') })} onClick={this.toggle} />;
     }
-
-    return '';
   }
 
   getAdminMenu() {
@@ -72,19 +70,42 @@ class Header extends ImmutablePureComponent {
     }
 
     return (
-      <div className='group__header-container'>
-        <div className='group__header'>
-          <div className='group__cover'>
-            <img src={group.get('cover_image_url')} alt='' className='parallax' />
-          </div>
+      <div className='-mt-4 -mx-4 sm:rounded-t-xl overflow-hidden'>
+        <div className='relative h-32 w-full lg:h-48 bg-gray-200 dark:bg-gray-900/50'>
+          {group.get('cover_image_url') && (
+            <img
+              src={group.get('cover_image_url')}
+              alt=''
+              className='absolute inset-0 w-full h-full object-cover'
+            />
+          )}
+        </div>
 
-          <div className='group__tabs'>
-            <NavLink exact className='group__tabs__tab' activeClassName='group__tabs__tab--active' to={`/groups/${group.get('id')}`}>Posts</NavLink>
-            <NavLink exact className='group__tabs__tab' activeClassName='group__tabs__tab--active' to={`/groups/${group.get('id')}/members`}>Members</NavLink>
+        <HStack alignItems='center' justifyContent='between' space={2} className='px-4 py-3 border-b border-solid border-gray-200 dark:border-slate-700'>
+          <HStack space={1} alignItems='center'>
+            <NavLink
+              exact
+              className='px-4 py-1.5 rounded-full text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-700/60'
+              activeClassName='bg-primary-600 text-white hover:bg-primary-600 dark:hover:bg-primary-600'
+              to={`/groups/${group.get('id')}`}
+            >
+              Posts
+            </NavLink>
+            <NavLink
+              exact
+              className='px-4 py-1.5 rounded-full text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-700/60'
+              activeClassName='bg-primary-600 text-white hover:bg-primary-600 dark:hover:bg-primary-600'
+              to={`/groups/${group.get('id')}/members`}
+            >
+              Members
+            </NavLink>
+          </HStack>
+
+          <HStack space={2} alignItems='center'>
             {this.getActionButton()}
             {relationships.get('admin') && this.getAdminMenu()}
-          </div>
-        </div>
+          </HStack>
+        </HStack>
       </div>
     );
   }

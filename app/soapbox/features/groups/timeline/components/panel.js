@@ -3,6 +3,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import ImmutablePureComponent from 'react-immutable-pure-component';
 import { injectIntl, defineMessages } from 'react-intl';
 
+import { HStack, Text, Widget } from 'soapbox/components/ui';
 import Icon from 'soapbox/components/icon';
 
 const messages = defineMessages({
@@ -13,26 +14,35 @@ const messages = defineMessages({
 export default @injectIntl
 class GroupPanel extends ImmutablePureComponent {
 
-    static propTypes = {
-      group: ImmutablePropTypes.map,
-      relationships: ImmutablePropTypes.map,
-    }
+  static propTypes = {
+    group: ImmutablePropTypes.map,
+    relationships: ImmutablePropTypes.map,
+  }
 
-    render() {
-      const { group, relationships, intl } = this.props;
+  render() {
+    const { group, relationships, intl } = this.props;
 
-      return (
-        <div className='group__panel'>
-          <h1 className='group__panel__title'>
-            {group.get('title')}
-            {group.get('archived') && <Icon id='lock' title={intl.formatMessage(messages.group_archived)} />}
-          </h1>
+    return (
+      <Widget title={group.get('title')}>
+        {relationships.get('admin') && (
+          <HStack alignItems='center' space={1}>
+            <Icon id='check' className='w-4 h-4 text-primary-600' />
+            <Text size='sm' theme='muted'>{intl.formatMessage(messages.group_admin)}</Text>
+          </HStack>
+        )}
 
-          {relationships.get('admin') && <span className='group__panel__label'>{intl.formatMessage(messages.group_admin)}</span>}
+        {group.get('archived') && (
+          <HStack alignItems='center' space={1}>
+            <Icon id='lock' className='w-4 h-4' title={intl.formatMessage(messages.group_archived)} />
+            <Text size='sm' theme='muted'>{intl.formatMessage(messages.group_archived)}</Text>
+          </HStack>
+        )}
 
-          <div className='group__panel__description'>{group.get('description')}</div>
-        </div>
-      );
-    }
+        {group.get('description') && (
+          <Text size='sm' theme='muted'>{group.get('description')}</Text>
+        )}
+      </Widget>
+    );
+  }
 
 }

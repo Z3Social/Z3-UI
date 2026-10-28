@@ -44,10 +44,10 @@ import { Status, CommunityTimeline, PublicTimeline, RemoteTimeline, AccountTimel
 Groups,
 GroupTimeline,
 ListTimeline, Lists, Bookmarks,
-// GroupMembers,
-// GroupRemovedAccounts,
-// GroupCreate,
-// GroupEdit,
+GroupMembers,
+GroupRemovedAccounts,
+GroupCreate,
+GroupEdit,
 Settings, MediaDisplay, EditProfile, EditEmail, EditPassword, EmailConfirmation, DeleteAccount, SoapboxConfig,
 // ExportData,
 ImportData,
@@ -188,7 +188,12 @@ const SwitchingColumnsArea = ({
       <WrappedRoute path='/notifications' page={DefaultPage} component={Notifications} content={children} />
 
       <WrappedRoute path='/search' page={DefaultPage} component={Search} content={children} />
-      <WrappedRoute path='/groups' exact page={GroupsPage} component={Groups} content={children} />
+      <WrappedRoute path='/groups' exact page={GroupsPage} component={Groups} componentParams={{ activeTab: 'featured' }} content={children} />
+      <WrappedRoute path='/groups/browse/:tab' exact page={GroupsPage} component={Groups} content={children} />
+      <WrappedRoute path='/groups/create' exact page={GroupsPage} component={GroupCreate} content={children} />
+      <WrappedRoute path='/groups/:id/edit' page={GroupPage} component={GroupEdit} content={children} />
+      <WrappedRoute path='/groups/:id/members' page={GroupPage} component={GroupMembers} content={children} />
+      <WrappedRoute path='/groups/:id/removed_accounts' page={GroupPage} component={GroupRemovedAccounts} content={children} />
       <WrappedRoute path='/groups/:id' page={GroupPage} component={GroupTimeline} content={children} />
       {features.suggestions && <WrappedRoute path='/suggestions' publicRoute page={DefaultPage} component={FollowRecommendations} content={children} />}
       {features.profileDirectory && <WrappedRoute path='/directory' publicRoute page={DefaultPage} component={Directory} content={children} />}

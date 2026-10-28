@@ -5,7 +5,7 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { Column, Spinner } from 'soapbox/components/ui';
+import { Spinner } from 'soapbox/components/ui';
 
 import ComposeFormContainer from '../../../../soapbox/features/compose/containers/compose_form_container';
 import { connectGroupStream } from '../../../actions/streaming';
@@ -65,11 +65,7 @@ class GroupTimeline extends React.PureComponent {
     const { id } = this.props.params;
 
     if (typeof group === 'undefined' || !relationships) {
-      return (
-        <Column>
-          <Spinner />
-        </Column>
-      );
+      return <Spinner />;
     } else if (group === false) {
       return (
         <MissingIndicator />
@@ -89,7 +85,7 @@ class GroupTimeline extends React.PureComponent {
           </div>
         )}
 
-        <div className='group__feed'>
+        <div>
           <Timeline
             alwaysPrepend
             scrollKey={`group_timeline-${columnId}`}

@@ -9,23 +9,25 @@ import { connect } from 'react-redux';
 import { Spinner } from 'soapbox/components/ui';
 
 import {
-  fetchRemovedAccounts,
-  expandRemovedAccounts,
-  removeRemovedAccount,
+  fetchGroupRemovedAccounts,
+  expandGroupRemovedAccounts,
+  removeGroupRemovedAccounts,
 } from '../../../actions/groups';
 import ScrollableList from '../../../components/scrollable_list';
 import AccountContainer from '../../../containers/account_container';
-import Column from '../../ui/components/column';
 
 const messages = defineMessages({
   remove: { id: 'groups.removed_accounts', defaultMessage: 'Allow joining' },
 });
 
-const mapStateToProps = (state, { params: { id } }) => ({
-  group: state.getIn(['groups', id]),
-  accountIds: state.user_lists.groups_removed_accounts.get(id)?.items,
-  hasMore: !!state.user_lists.groups_removed_accounts.get(id)?.next,
-});
+const mapStateToProps = (state, { params: { id } }) => {
+  const list = state.getIn(['user_lists', 'groups_removed_accounts', id]);
+  return {
+    group: state.getIn(['groups', id]),
+    accountIds: list ? list.get('items') : null,
+    hasMore: !!list && !!list.get('next'),
+  };
+};
 
 export default @connect(mapStateToProps)
 @injectIntl
@@ -41,22 +43,22 @@ class GroupRemovedAccounts extends ImmutablePureComponent {
   componentDidMount() {
     const { params: { id } } = this.props;
 
-    this.props.dispatch(fetchRemovedAccounts(id));
+    this.props.dispatch(fetchGroupRemovedAccounts(id));
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.params.id !== prevProps.params.id) {
-      this.props.dispatch(fetchRemovedAccounts(this.props.params.id));
+      this.props.dispatch(fetchGroupRemovedAccounts(this.props.params.id));
     }
   }
 
   handleLoadMore = debounce(() => {
-    this.props.dispatch(expandRemovedAccounts(this.props.params.id));
+    this.props.dispatch(expandGroupRemovedAccounts(this.props.params.id));
   }, 300, { leading: true });
 
   handleOnActionClick = (group, id) => {
     return () => {
-      this.props.dispatch(removeRemovedAccount(group.get('id'), id));
+      this.props.dispatch(removeGroupRemovedAccounts(group.get('id'), id));
     };
   }
 
@@ -64,30 +66,24 @@ class GroupRemovedAccounts extends ImmutablePureComponent {
     const { accountIds, hasMore, group, intl } = this.props;
 
     if (!group || !accountIds) {
-      return (
-        <Column>
-          <Spinner />
-        </Column>
-      );
+      return <Spinner />;
     }
 
     return (
-      <Column>
-        <ScrollableList
-          scrollKey='removed_accounts'
-          hasMore={hasMore}
-          onLoadMore={this.handleLoadMore}
-          emptyMessage={<FormattedMessage id='group.removed_accounts.empty' defaultMessage='This group does not has any removed accounts.' />}
-        >
-          {accountIds.map(id => (<AccountContainer
-            key={id}
-            id={id}
-            actionIcon={require('@tabler/icons/x.svg')}
-            onActionClick={this.handleOnActionClick(group, id)}
-            actionTitle={intl.formatMessage(messages.remove)}
-          />))}
-        </ScrollableList>
-      </Column>
+      <ScrollableList
+        scrollKey='removed_accounts'
+        hasMore={hasMore}
+        onLoadMore={this.handleLoadMore}
+        emptyMessage={<FormattedMessage id='group.removed_accounts.empty' defaultMessage='This group does not has any removed accounts.' />}
+      >
+        {accountIds.map(id => (<AccountContainer
+          key={id}
+          id={id}
+          actionIcon={require('@tabler/icons/x.svg')}
+          onActionClick={this.handleOnActionClick(group, id)}
+          actionTitle={intl.formatMessage(messages.remove)}
+        />))}
+      </ScrollableList>
     );
   }
 

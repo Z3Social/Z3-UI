@@ -5,7 +5,7 @@ import { defineMessages, injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import Icon from 'soapbox/components/icon';
+import { Widget } from 'soapbox/components/ui';
 
 import Item from './item';
 
@@ -14,7 +14,7 @@ const messages = defineMessages({
   show_all: { id: 'groups.sidebar-panel.show_all', defaultMessage: 'Show all' },
 });
 
-const mapStateToProps = (state, { id }) => ({
+const mapStateToProps = state => ({
   groupIds: state.getIn(['group_lists', 'member']),
 });
 
@@ -22,32 +22,25 @@ export default @connect(mapStateToProps)
 @injectIntl
 class GroupSidebarPanel extends ImmutablePureComponent {
 
-    static propTypes = {
-      groupIds: ImmutablePropTypes.list,
-    }
+  static propTypes = {
+    groupIds: ImmutablePropTypes.list,
+  }
 
-    render() {
-      const { intl, groupIds } = this.props;
-      const count = groupIds.count();
+  render() {
+    const { intl, groupIds } = this.props;
+    const count = groupIds.count();
 
-      // Only when there are groups to show
-      if (count === 0) return null;
+    // Only when there are groups to show
+    if (count === 0) return null;
 
-      return (
-        <div className='wtf-panel group-sidebar-panel'>
-          <div className='wtf-panel-header'>
-            <Icon id='users' className='wtf-panel-header__icon' />
-            <span className='wtf-panel-header__label'>{intl.formatMessage(messages.title)}</span>
-          </div>
-
-          <div className='wtf-panel__content'>
-            <div className='group-sidebar-panel__items'>
-              {groupIds.slice(0, 10).map(groupId => <Item key={groupId} id={groupId} />)}
-              {count > 10 && <Link className='group-sidebar-panel__items__show-all' to='/groups/browse/member'>{intl.formatMessage(messages.show_all)}</Link>}
-            </div>
-          </div>
+    return (
+      <Widget title={intl.formatMessage(messages.title)}>
+        <div className='space-y-1'>
+          {groupIds.slice(0, 10).map(groupId => <Item key={groupId} id={groupId} />)}
+          {count > 10 && <Link className='block text-center text-sm text-primary-600 dark:text-accent-300 hover:underline' to='/groups/browse/member'>{intl.formatMessage(messages.show_all)}</Link>}
         </div>
-      );
-    }
+      </Widget>
+    );
+  }
 
 }

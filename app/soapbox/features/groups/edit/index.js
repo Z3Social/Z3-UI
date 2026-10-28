@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import MissingIndicator from 'soapbox/components/missing_indicator';
-import { Column, Spinner } from 'soapbox/components/ui';
+import { Spinner } from 'soapbox/components/ui';
 
 import { changeValue, submit, setUp } from '../../../actions/group_editor';
 
@@ -91,11 +91,7 @@ class Edit extends React.PureComponent {
     const { group, title, description, coverImage, disabled, intl } = this.props;
 
     if (typeof group === 'undefined') {
-      return (
-        <Column>
-          <Spinner />
-        </Column>
-      );
+      return <Spinner />;
     } else if (group === false) {
       return (
         <MissingIndicator />
