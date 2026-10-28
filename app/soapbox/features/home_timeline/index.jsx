@@ -1,13 +1,15 @@
 import React, { useEffect } from 'react';
 import { defineMessages, useIntl, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
+import Avatar from 'soapbox/components/avatar';
+import ComposeFormContainer from 'soapbox/features/compose/containers/compose_form_container';
 import { fetchRelationships } from 'soapbox/actions/accounts';
 import { fetchSuggestionsForTimeline } from 'soapbox/actions/suggestions';
 import { expandHomeTimeline } from 'soapbox/actions/timelines';
 import PullToRefresh from 'soapbox/components/pull-to-refresh';
 import { Column, Stack, Text } from 'soapbox/components/ui';
 import Timeline from 'soapbox/features/ui/components/timeline';
-import { useAppSelector, useAppDispatch, useFeatures, useSettings } from 'soapbox/hooks';
+import { useAppSelector, useAppDispatch, useFeatures, useSettings, useOwnAccount } from 'soapbox/hooks';
 import { clearFeedAccountId } from '../../actions/timelines';
 const messages = defineMessages({
   title: {
@@ -28,6 +30,7 @@ const HomeTimeline = () => {
   const dispatch = useAppDispatch();
   const settings = useSettings();
   const features = useFeatures();
+  const account = useOwnAccount();
   const currentAccountId = useAppSelector(state => state.timelines.get('home')?.feedAccountId);
   const siteTitle = useAppSelector(state => state.instance.title);
   const currentAccountRelationship = useAppSelector(state => currentAccountId ? state.relationships.get(currentAccountId) : null);
@@ -61,6 +64,14 @@ const HomeTimeline = () => {
   }, [currentAccountId]);
   return <Column label={intl.formatMessage(messages.title)} transparent withHeader={false}>
       <PullToRefresh onRefresh={handleRefresh}>
+        {account && (
+          <div className='timeline-compose-block'>
+            <Link className='timeline-compose-block__avatar' to={`/@${account.get('acct')}`}>
+              <Avatar account={account} size={46} />
+            </Link>
+            <ComposeFormContainer shouldCondense autoFocus={false} />
+          </div>
+        )}
         <Timeline scrollKey='home_timeline' onLoadMore={handleLoadMore} timelineId='home' divideType='space' showAds emptyMessage={<Stack space={1}>
               <Text size='xl' weight='medium' align='center'>
                 <FormattedMessage id='empty_column.home.title' defaultMessage="You're not following anyone yet" />
