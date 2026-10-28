@@ -148,6 +148,7 @@ module.exports = {
       'custom': resolve('custom'),
     },
     fallback: {
+      fs: false,
       path: require.resolve('path-browserify'),
       util: require.resolve('util'),
     },
