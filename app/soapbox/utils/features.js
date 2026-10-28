@@ -384,9 +384,10 @@ const getInstanceFeatures = instance => {
     resetPassword: v.software === PLEROMA || v.software === AKKOMA,
     /**
      * Ability to post statuses in Markdown, BBCode, and HTML.
+     * Disabled: Twitter-style plain text posts only.
      * @see POST /api/v1/statuses
      */
-    richText: any([v.software === MASTODON && v.build === GLITCH, v.software === PLEROMA || v.software === AKKOMA]),
+    richText: false,
     /**
      * Can schedule statuses to be posted at a later time.
      * @see POST /api/v1/statuses

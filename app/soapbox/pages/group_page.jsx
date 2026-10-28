@@ -36,6 +36,12 @@ class GroupPage extends ImmutablePureComponent {
     dispatch(fetchGroup(id));
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.params.id !== prevProps.params.id) {
+      this.props.dispatch(fetchGroup(this.props.params.id));
+    }
+  }
+
   render() {
     const { children, group, relationships } = this.props;
 

@@ -48,6 +48,18 @@ class GroupTimeline extends React.PureComponent {
     this.disconnect = dispatch(connectGroupStream(id));
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.params.id !== prevProps.params.id) {
+      if (this.disconnect) {
+        this.disconnect();
+        this.disconnect = null;
+      }
+      const { id } = this.props.params;
+      this.props.dispatch(expandGroupTimeline(id));
+      this.disconnect = this.props.dispatch(connectGroupStream(id));
+    }
+  }
+
   componentWillUnmount() {
     if (this.disconnect) {
       this.disconnect();

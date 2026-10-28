@@ -247,7 +247,7 @@ const Status = props => {
 
           <div className='status__content-wrapper'>
             {!group && actualStatus.group && <div className='status__meta'>
-                Posted in <NavLink to={`/groups/${actualStatus.getIn(['group', 'id'])}`}>{String(actualStatus.getIn(['group', 'title']))}</NavLink>
+                <FormattedMessage id='status.posted_in_group' defaultMessage='Posted in' /> <NavLink to={`/groups/${actualStatus.getIn(['group', 'id'])}`} onClick={event => event.stopPropagation()}>{String(actualStatus.getIn(['group', 'title']))}</NavLink>
               </div>}
 
             <StatusReplyMentions status={actualStatus} hoverable={hoverable} />
