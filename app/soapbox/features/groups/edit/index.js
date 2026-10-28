@@ -18,6 +18,7 @@ import {
   FormGroup,
   HStack,
   Input,
+  Select,
   Spinner,
   Stack,
   Text,
@@ -33,6 +34,10 @@ const messages = defineMessages({
   descriptionPlaceholder: { id: 'groups.form.description_placeholder', defaultMessage: 'What is this group about?' },
   coverImage: { id: 'groups.form.coverImage', defaultMessage: 'Banner image (optional)' },
   coverHint: { id: 'groups.form.coverHint', defaultMessage: 'Recommended size 1200x400 JPG, PNG or WEBP' },
+  visibility: { id: 'groups.form.visibility', defaultMessage: 'Visibility' },
+  visibilityPublic: { id: 'groups.form.visibility.public', defaultMessage: 'Public - anyone can see and join' },
+  visibilityPrivate: { id: 'groups.form.visibility.private', defaultMessage: 'Private - anyone can see, but joining requires approval' },
+  visibilityHidden: { id: 'groups.form.visibility.hidden', defaultMessage: 'Hidden - only members can see it' },
   update: { id: 'groups.form.update', defaultMessage: 'Save changes' },
   cancel: { id: 'groups.form.cancel', defaultMessage: 'Cancel' },
   heading: { id: 'groups.edit.heading', defaultMessage: 'Edit group' },
@@ -43,6 +48,7 @@ const mapStateToProps = (state, props) => ({
   title: state.getIn(['group_editor', 'title']),
   description: state.getIn(['group_editor', 'description']),
   coverImage: state.getIn(['group_editor', 'coverImage']),
+  visibility: state.getIn(['group_editor', 'visibility']),
   disabled: state.getIn(['group_editor', 'isSubmitting']),
 });
 
@@ -50,6 +56,7 @@ const mapDispatchToProps = (dispatch, props) => ({
   onTitleChange: value => dispatch(changeValue('title', value)),
   onDescriptionChange: value => dispatch(changeValue('description', value)),
   onCoverImageChange: value => dispatch(changeValue('coverImage', value)),
+  onVisibilityChange: value => dispatch(changeValue('visibility', value)),
   onSubmit: routerHistory => dispatch(submit(routerHistory)),
   setUp: group => dispatch(setUp(group, props.params.id)),
 });
@@ -64,12 +71,14 @@ class Edit extends React.PureComponent {
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     coverImage: PropTypes.object,
+    visibility: PropTypes.string,
     disabled: PropTypes.bool,
     intl: PropTypes.object.isRequired,
     onTitleChange: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onDescriptionChange: PropTypes.func.isRequired,
     onCoverImageChange: PropTypes.func.isRequired,
+    onVisibilityChange: PropTypes.func.isRequired,
     setUp: PropTypes.func.isRequired,
     history: PropTypes.object,
     params: PropTypes.object.isRequired,
@@ -98,13 +107,17 @@ class Edit extends React.PureComponent {
     this.props.onCoverImageChange(e.target.files[0] || null);
   }
 
+  handleVisibilityChange = e => {
+    this.props.onVisibilityChange(e.target.value);
+  }
+
   handleSubmit = e => {
     e.preventDefault();
     this.props.onSubmit(this.props.history);
   }
 
   render() {
-    const { group, title, description, coverImage, disabled, intl, params: { id } } = this.props;
+    const { group, title, description, coverImage, visibility, disabled, intl, params: { id } } = this.props;
 
     if (typeof group === 'undefined') {
       return <Spinner />;
@@ -142,6 +155,18 @@ class Edit extends React.PureComponent {
                   placeholder={intl.formatMessage(messages.descriptionPlaceholder)}
                   rows={4}
                 />
+              </FormGroup>
+
+              <FormGroup labelText={intl.formatMessage(messages.visibility)}>
+                <Select
+                  value={visibility}
+                  disabled={disabled}
+                  onChange={this.handleVisibilityChange}
+                >
+                  <option value='public'>{intl.formatMessage(messages.visibilityPublic)}</option>
+                  <option value='private'>{intl.formatMessage(messages.visibilityPrivate)}</option>
+                  <option value='hidden'>{intl.formatMessage(messages.visibilityHidden)}</option>
+                </Select>
               </FormGroup>
 
               <FormGroup

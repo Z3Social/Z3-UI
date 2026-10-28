@@ -8,7 +8,6 @@ import { fetchInstance } from 'soapbox/actions/instance';
 import { openSidebar } from 'soapbox/actions/sidebar';
 import SiteLogo from 'soapbox/components/site-logo';
 import { Avatar, Button, Form, IconButton, Input, Tooltip } from 'soapbox/components/ui';
-import Search from 'soapbox/features/compose/components/search';
 import { useOwnAccount, useSoapboxConfig } from 'soapbox/hooks';
 import ProfileDropdown from './profile-dropdown';
 const messages = defineMessages({
@@ -75,15 +74,9 @@ const Navbar = () => {
               </div>}
 
             <Link key='logo' to='/' data-preview-title-id='column.home' className='flex-shrink-0 flex items-center'>
-              <SiteLogo alt='Logo' className='h-5 lg:h-6 w-auto cursor-pointer' />
+              <SiteLogo alt='Logo' className='h-9 w-auto cursor-pointer' />
               <span className='hidden'><FormattedMessage id='tabs_bar.home' defaultMessage='Home' /></span>
             </Link>
-
-            {account && <div className='flex-1 hidden lg:flex justify-center px-2 lg:ml-6 lg:justify-start items-center'>
-                <div className='max-w-xl w-full lg:max-w-xs hidden lg:block'>
-                  <Search openInRoute autosuggest />
-                </div>
-              </div>}
 
             <Link to="/search">
               <IconButton src={require('@tabler/icons/search.svg')} className='bg-transparent text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-200 lg:hidden cursor-pointer' iconClassName='w-5 h-5' />

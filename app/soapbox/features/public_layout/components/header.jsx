@@ -80,7 +80,7 @@ const Header = () => {
         <div className='w-full py-6 flex items-center justify-between border-b border-indigo-500 lg:border-none'>
           <div className='flex items-center sm:justify-center relative w-36'>
             <Link to='/' className='z-10'>
-              <SiteLogo alt='Logo' className='h-6 w-auto cursor-pointer' />
+              <SiteLogo alt='Logo' className='h-9 w-auto cursor-pointer' />
               <span className='hidden'>{intl.formatMessage(messages.home)}</span>
             </Link>
 

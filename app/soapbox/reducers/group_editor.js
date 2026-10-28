@@ -19,6 +19,7 @@ const initialState = ImmutableMap({
   title: '',
   description: '',
   coverImage: null,
+  visibility: 'public',
 });
 
 export default function groupEditorReducer(state = initialState, action) {
@@ -30,6 +31,7 @@ export default function groupEditorReducer(state = initialState, action) {
         map.set('groupId', action.group.get('id'));
         map.set('title', action.group.get('title'));
         map.set('description', action.group.get('description'));
+        map.set('visibility', action.group.get('visibility') || 'public');
         map.set('isSubmitting', false);
       });
     case GROUP_EDITOR_VALUE_CHANGE:

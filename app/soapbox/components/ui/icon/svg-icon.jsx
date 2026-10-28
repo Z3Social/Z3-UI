@@ -5,12 +5,13 @@ import InlineSVG from 'react-inlinesvg'; // eslint-disable-line no-restricted-im
 const SvgIcon = ({
   src,
   alt,
-  size = 24,
+  size,
   className,
   ...filteredProps
 }) => {
-  const loader = <svg className={className} width={size} height={size} data-src={src} data-testid='svg-icon-loader' />;
-  return <InlineSVG className={className} src={src} title={alt} width={size} height={size} loader={loader} data-testid='svg-icon' {...filteredProps}>
+  const loader = <svg className={className} width={size || 24} height={size || 24} data-src={src} data-testid='svg-icon-loader' />;
+  const dimensions = size ? { width: size, height: size } : {};
+  return <InlineSVG className={className} src={src} title={alt} {...dimensions} loader={loader} data-testid='svg-icon' {...filteredProps}>
       {/* If the fetch fails, fall back to displaying the loader */}
       {loader}
     </InlineSVG>;

@@ -14,18 +14,20 @@ const submit = routerHistory => (dispatch, getState) => {
   const title = getState().group_editor.get('title');
   const description = getState().group_editor.get('description');
   const coverImage = getState().group_editor.get('coverImage');
+  const visibility = getState().group_editor.get('visibility');
   if (groupId === null) {
-    dispatch(create(title, description, coverImage, routerHistory));
+    dispatch(create(title, description, coverImage, visibility, routerHistory));
   } else {
-    dispatch(update(groupId, title, description, coverImage, routerHistory));
+    dispatch(update(groupId, title, description, coverImage, visibility, routerHistory));
   }
 };
-const create = (title, description, coverImage, routerHistory) => (dispatch, getState) => {
+const create = (title, description, coverImage, visibility, routerHistory) => (dispatch, getState) => {
   if (!isLoggedIn(getState)) return;
   dispatch(createRequest());
   const formData = new FormData();
   formData.append('title', title);
   formData.append('description', description);
+  formData.append('visibility', visibility);
   if (coverImage !== null) {
     formData.append('cover_image', coverImage);
   }
@@ -52,12 +54,13 @@ const createFail = error => ({
   type: GROUP_CREATE_FAIL,
   error
 });
-const update = (groupId, title, description, coverImage, routerHistory) => (dispatch, getState) => {
+const update = (groupId, title, description, coverImage, visibility, routerHistory) => (dispatch, getState) => {
   if (!isLoggedIn(getState)) return;
   dispatch(updateRequest(groupId));
   const formData = new FormData();
   formData.append('title', title);
   formData.append('description', description);
+  formData.append('visibility', visibility);
   if (coverImage !== null) {
     formData.append('cover_image', coverImage);
   }

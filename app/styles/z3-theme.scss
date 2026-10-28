@@ -567,6 +567,10 @@
   --z3-blue-hover: #0369a1;
   --z3-text: #f8fafc;
   --z3-muted: #94a3b8;
+
+  /* Override the generated accent palette with the Z3 blue */
+  --color-accent-500: 2 132 199 !important;
+  --color-accent-300: 3 105 161 !important;
 }
 
 body, html, #soapbox, .theme-mode-dark {
@@ -646,13 +650,6 @@ nav, .top-bar, .app-header {
 .site-logo svg, .site-logo img, a[data-preview-title-id="column.home"] svg {
   fill: #ffffff !important;
   color: #ffffff !important;
-  height: 28px !important;
-  width: auto !important;
-}
-
-/* Erroneous top-right profile avatar: hide to match dark dim mockup */
-nav .space-x-3 > .relative.lg\:flex {
-  display: none !important;
 }
 
 /* Search bar in top navbar */
