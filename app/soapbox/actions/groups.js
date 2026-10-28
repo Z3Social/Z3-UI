@@ -185,8 +185,14 @@ const fetchGroupMembersFail = (id, error) => ({
   error
 });
 const expandGroupMembers = (id, url) => (dispatch, getState) => {
+  const nextUrl = url || getState().user_lists.getIn(['groups', id, 'next']);
+
+  if (!nextUrl) {
+    return;
+  }
+
   dispatch(expandGroupMembersRequest());
-  api(getState).get(url).then(response => {
+  api(getState).get(nextUrl).then(response => {
     const next = getLinks(response).get('next');
     dispatch(importFetchedAccounts(response.data));
     dispatch(fetchRelationships(response.data.map(item => item.id)));
