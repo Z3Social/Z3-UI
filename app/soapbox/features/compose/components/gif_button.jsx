@@ -55,7 +55,7 @@ const GifButton = ({ onSelectGif, disabled = false }) => {
     <>
       <button
         type='button'
-        className='font-bold text-xs px-2.5 py-1 rounded bg-sky-600 hover:bg-sky-500 text-white transition-colors inline-flex items-center'
+        className='inline-flex items-center justify-center rounded-md px-2 py-1 text-sm font-medium text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-700 disabled:cursor-not-allowed disabled:opacity-50 dark:text-gray-400 dark:hover:bg-slate-700 dark:hover:text-gray-100'
         title='Choose a GIF (KLIPY)'
         disabled={disabled}
         onClick={() => setIsOpen(true)}
