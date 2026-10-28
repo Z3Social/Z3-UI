@@ -1,5 +1,6 @@
 // @preval
 const { execSync } = require('child_process');
+const path = require('path');
 
 const pkg = require('../../../package.json');
 
@@ -8,7 +9,7 @@ const trimHash = hash => hash.substring(0, 7);
 
 const tryGit = cmd => {
   try {
-    return String(execSync(cmd));
+    return String(execSync(cmd, { cwd: path.resolve(__dirname, '../../..') }));
   } catch (e) {
     return null;
   }
