@@ -1,22 +1,41 @@
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { defineMessages, injectIntl } from 'react-intl';
+import { defineMessages, injectIntl, FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 
 import MissingIndicator from 'soapbox/components/missing_indicator';
-import { Spinner } from 'soapbox/components/ui';
+import {
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  CardTitle,
+  FileInput,
+  Form,
+  FormActions,
+  FormGroup,
+  HStack,
+  Input,
+  Spinner,
+  Stack,
+  Text,
+  Textarea,
+} from 'soapbox/components/ui';
 
 import { changeValue, submit, setUp } from '../../../actions/group_editor';
 
 const messages = defineMessages({
-  title: { id: 'groups.form.title', defaultMessage: 'Title' },
-  description: { id: 'groups.form.description', defaultMessage: 'Description' },
-  coverImage: { id: 'groups.form.coverImage', defaultMessage: 'Upload new banner image (optional)' },
-  coverImageChange: { id: 'groups.form.coverImageChange', defaultMessage: 'Banner image selected' },
-  update: { id: 'groups.form.update', defaultMessage: 'Update group' },
+  title: { id: 'groups.form.title', defaultMessage: 'Group title' },
+  titlePlaceholder: { id: 'groups.form.title_placeholder', defaultMessage: 'Enter group title' },
+  description: { id: 'groups.form.description', defaultMessage: 'Group description' },
+  descriptionPlaceholder: { id: 'groups.form.description_placeholder', defaultMessage: 'What is this group about?' },
+  coverImage: { id: 'groups.form.coverImage', defaultMessage: 'Banner image (optional)' },
+  coverHint: { id: 'groups.form.coverHint', defaultMessage: 'Recommended size 1200x400 JPG, PNG or WEBP' },
+  update: { id: 'groups.form.update', defaultMessage: 'Save changes' },
+  cancel: { id: 'groups.form.cancel', defaultMessage: 'Cancel' },
+  heading: { id: 'groups.edit.heading', defaultMessage: 'Edit group' },
 });
 
 const mapStateToProps = (state, props) => ({
@@ -27,12 +46,12 @@ const mapStateToProps = (state, props) => ({
   disabled: state.getIn(['group_editor', 'isSubmitting']),
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch, props) => ({
   onTitleChange: value => dispatch(changeValue('title', value)),
   onDescriptionChange: value => dispatch(changeValue('description', value)),
   onCoverImageChange: value => dispatch(changeValue('coverImage', value)),
   onSubmit: routerHistory => dispatch(submit(routerHistory)),
-  setUp: group => dispatch(setUp(group)),
+  setUp: group => dispatch(setUp(group, props.params.id)),
 });
 
 export default @connect(mapStateToProps, mapDispatchToProps)
@@ -53,6 +72,7 @@ class Edit extends React.PureComponent {
     onCoverImageChange: PropTypes.func.isRequired,
     setUp: PropTypes.func.isRequired,
     history: PropTypes.object,
+    params: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -75,7 +95,7 @@ class Edit extends React.PureComponent {
   }
 
   handleCoverImageChange = e => {
-    this.props.onCoverImageChange(e.target.files[0]);
+    this.props.onCoverImageChange(e.target.files[0] || null);
   }
 
   handleSubmit = e => {
@@ -83,61 +103,81 @@ class Edit extends React.PureComponent {
     this.props.onSubmit(this.props.history);
   }
 
-  handleClick = () => {
-    this.props.onSubmit(this.props.history);
-  }
-
   render() {
-    const { group, title, description, coverImage, disabled, intl } = this.props;
+    const { group, title, description, coverImage, disabled, intl, params: { id } } = this.props;
 
     if (typeof group === 'undefined') {
       return <Spinner />;
     } else if (group === false) {
-      return (
-        <MissingIndicator />
-      );
+      return <MissingIndicator />;
     }
 
     return (
-      <form className='group-form' method='post' onSubmit={this.handleSubmit}>
-        <div>
-          <input
-            className='standard'
-            type='text'
-            value={title}
-            disabled={disabled}
-            onChange={this.handleTitleChange}
-            placeholder={intl.formatMessage(messages.title)}
-          />
-        </div>
+      <Card variant='rounded' size='lg' className='bg-white dark:bg-slate-800 shadow-md'>
+        <CardHeader backHref={`/groups/${id}`}>
+          <CardTitle>
+            <FormattedMessage id='groups.edit.heading' defaultMessage='Edit group' />
+          </CardTitle>
+        </CardHeader>
 
-        <div>
-          <textarea
-            className='standard'
-            type='text'
-            value={description}
-            disabled={disabled}
-            onChange={this.handleDescriptionChange}
-            placeholder={intl.formatMessage(messages.description)}
-          />
-        </div>
+        <CardBody>
+          <Form onSubmit={this.handleSubmit}>
+            <Stack space={4}>
+              <FormGroup labelText={intl.formatMessage(messages.title)}>
+                <Input
+                  type='text'
+                  value={title}
+                  disabled={disabled}
+                  onChange={this.handleTitleChange}
+                  placeholder={intl.formatMessage(messages.titlePlaceholder)}
+                  required
+                />
+              </FormGroup>
 
-        <div>
-          <label htmlFor='group_cover_image' className={classNames('group-form__file-label', { 'group-form__file-label--selected': coverImage !== null })}>
-            {intl.formatMessage(coverImage === null ? messages.coverImage : messages.coverImageChange)}
-          </label>
+              <FormGroup labelText={intl.formatMessage(messages.description)}>
+                <Textarea
+                  value={description}
+                  disabled={disabled}
+                  onChange={this.handleDescriptionChange}
+                  placeholder={intl.formatMessage(messages.descriptionPlaceholder)}
+                  rows={4}
+                />
+              </FormGroup>
 
-          <input
-            type='file'
-            className='group-form__file'
-            id='group_cover_image'
-            disabled={disabled}
-            onChange={this.handleCoverImageChange}
-          />
+              <FormGroup
+                labelText={intl.formatMessage(messages.coverImage)}
+                hintText={intl.formatMessage(messages.coverHint)}
+              >
+                <FileInput
+                  id='group_cover_image'
+                  disabled={disabled}
+                  accept='image/*'
+                  onChange={this.handleCoverImageChange}
+                />
+                {coverImage && (
+                  <Text size='sm' theme='muted' className='mt-1'>
+                    {coverImage.name}
+                  </Text>
+                )}
+              </FormGroup>
 
-          <button>{intl.formatMessage(messages.update)}</button>
-        </div>
-      </form>
+              <FormActions>
+                <HStack space={2} justifyContent='end'>
+                  <Link to={`/groups/${id}`}>
+                    <Button theme='secondary' text={intl.formatMessage(messages.cancel)} disabled={disabled} />
+                  </Link>
+                  <Button
+                    type='submit'
+                    theme='primary'
+                    text={intl.formatMessage(messages.update)}
+                    disabled={disabled || !title.trim()}
+                  />
+                </HStack>
+              </FormActions>
+            </Stack>
+          </Form>
+        </CardBody>
+      </Card>
     );
   }
 

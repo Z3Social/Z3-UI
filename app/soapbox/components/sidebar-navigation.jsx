@@ -61,13 +61,7 @@ const SidebarNavigation = () => {
           count: followRequestsCount
         });
       }
-      if (features.federating) {
-        menu.push({
-          to: '/timeline/fediverse',
-          text: intl.formatMessage(messages.fediverse),
-          icon: !bubbleTimeline ? require('icons/fediverse.svg') : require('@tabler/icons/hexagon.svg')
-        });
-      }
+      /* Fediverse button removed */
       if (features.profileDirectory) {
         menu.push({
           to: '/directory',

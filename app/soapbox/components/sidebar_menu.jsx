@@ -262,7 +262,7 @@ const SidebarMenu = () => {
 
                 {features.profileDirectory && <SidebarLink to='/directory' icon={require('@tabler/icons/users.svg')} text={intl.formatMessage(messages.directory)} onClick={onClose} />}
 
-                {features.federating && <SidebarLink to='/timeline/fediverse' icon={!bubbleTimeline ? require('icons/fediverse.svg') : require('@tabler/icons/hexagon.svg')} text={intl.formatMessage(messages.fediverse)} onClick={onClose} />}
+                {/* Fediverse button removed */}
 
                 {/*
                   features.federating && (

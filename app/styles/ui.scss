@@ -152,6 +152,7 @@
 .ellipsis::after { content: "…"; }
 
 .timeline-compose-block {
+  @apply bg-white dark:bg-slate-800 rounded-xl shadow-xl dark:shadow-inset;
   @include standard-panel;
   display: flex;
   align-items: flex-start;

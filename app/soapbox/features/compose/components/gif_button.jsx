@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
+import { IconButton } from 'soapbox/components/ui';
 
 const CATEGORIES = [
   { id: 'trending', label: 'Trending' },
@@ -53,15 +54,13 @@ const GifButton = ({ onSelectGif, disabled = false }) => {
 
   return (
     <>
-      <button
-        type='button'
-        className='inline-flex items-center justify-center rounded-md px-2 py-1 text-sm font-medium text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-700 disabled:cursor-not-allowed disabled:opacity-50 dark:text-gray-400 dark:hover:bg-slate-700 dark:hover:text-gray-100'
+      <IconButton
+        src={require('icons/gif.svg')}
+        className='text-gray-400 hover:text-gray-600'
         title='Choose a GIF (KLIPY)'
         disabled={disabled}
         onClick={() => setIsOpen(true)}
-      >
-        GIF
-      </button>
+      />
 
       {isOpen && (
         <div

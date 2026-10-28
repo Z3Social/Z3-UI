@@ -18,7 +18,7 @@ const alignItemsOptions = {
   center: 'items-center'
 };
 /** Vertical stack of child elements. */
-const Stack = props => {
+const Stack = React.forwardRef((props, ref) => {
   const {
     space,
     alignItems,
@@ -27,11 +27,11 @@ const Stack = props => {
     grow,
     ...filteredProps
   } = props;
-  return <div {...filteredProps} className={classNames('flex flex-col', {
+  return <div ref={ref} {...filteredProps} className={classNames('flex flex-col', {
     [spaces[space]]: typeof space !== 'undefined',
     [alignItemsOptions[alignItems]]: typeof alignItems !== 'undefined',
     [justifyContentOptions[justifyContent]]: typeof justifyContent !== 'undefined',
     'flex-grow': grow
   }, className)} />;
-};
+});
 export default Stack;

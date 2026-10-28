@@ -20,7 +20,8 @@ const messages = defineMessages({
   }
 });
 const ComposeModal = ({
-  onClose
+  onClose,
+  group
 }) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
@@ -59,7 +60,7 @@ const ComposeModal = ({
     }
   };
   return <Modal title={renderTitle()} onClose={onClickClose}>
-      <ComposeFormContainer />
+      <ComposeFormContainer group={group} />
     </Modal>;
 };
 export default ComposeModal;

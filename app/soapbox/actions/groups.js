@@ -162,10 +162,10 @@ const leaveGroupFail = (id, error) => ({
 const fetchGroupMembers = id => (dispatch, getState) => {
   dispatch(fetchGroupMembersRequest());
   api(getState).get(`/api/v1/groups/${id}/accounts`).then(response => {
-    const next = getLinks(response).get('next');
+    const next = getLinks(response)?.refs?.find(link => link.rel === 'next')?.uri || null;
     dispatch(importFetchedAccounts(response.data));
     dispatch(fetchRelationships(response.data.map(item => item.id)));
-    dispatch(fetchGroupMembersSuccess(id, response.data.map(item => item.id), next));
+    dispatch(fetchGroupMembersSuccess(id, response.data, next));
   }).catch(error => {
     dispatch(fetchGroupMembersFail(id, error));
   });
@@ -186,17 +186,15 @@ const fetchGroupMembersFail = (id, error) => ({
 });
 const expandGroupMembers = (id, url) => (dispatch, getState) => {
   const nextUrl = url || getState().user_lists.getIn(['groups', id, 'next']);
-
   if (!nextUrl) {
     return;
   }
-
   dispatch(expandGroupMembersRequest());
   api(getState).get(nextUrl).then(response => {
-    const next = getLinks(response).get('next');
+    const next = getLinks(response)?.refs?.find(link => link.rel === 'next')?.uri || null;
     dispatch(importFetchedAccounts(response.data));
     dispatch(fetchRelationships(response.data.map(item => item.id)));
-    dispatch(expandGroupMembersSuccess(id, response.data.map(item => item.id), next));
+    dispatch(expandGroupMembersSuccess(id, response.data, next));
   }).catch(error => {
     dispatch(expandGroupMembersFail(id, error));
   });
@@ -218,10 +216,10 @@ const expandGroupMembersFail = (id, error) => ({
 const fetchGroupRemovedAccounts = id => (dispatch, getState) => {
   dispatch(fetchGroupRemovedAccountsRequest());
   api(getState).get(`/api/v1/groups/${id}/removed_accounts`).then(response => {
-    const next = getLinks(response).get('next');
+    const next = getLinks(response)?.refs?.find(link => link.rel === 'next')?.uri || null;
     dispatch(importFetchedAccounts(response.data));
     dispatch(fetchRelationships(response.data.map(item => item.id)));
-    dispatch(fetchGroupRemovedAccountsSuccess(id, response.data.map(item => item.id), next));
+    dispatch(fetchGroupRemovedAccountsSuccess(id, response.data, next));
   }).catch(error => {
     dispatch(fetchGroupRemovedAccountsFail(id, error));
   });
@@ -243,10 +241,10 @@ const fetchGroupRemovedAccountsFail = (id, error) => ({
 const expandGroupRemovedAccounts = (id, url) => (dispatch, getState) => {
   dispatch(expandGroupRemovedAccountsRequest());
   api(getState).get(url).then(response => {
-    const next = getLinks(response).get('next');
+    const next = getLinks(response)?.refs?.find(link => link.rel === 'next')?.uri || null;
     dispatch(importFetchedAccounts(response.data));
     dispatch(fetchRelationships(response.data.map(item => item.id)));
-    dispatch(expandGroupRemovedAccountsSuccess(id, response.data.map(item => item.id), next));
+    dispatch(expandGroupRemovedAccountsSuccess(id, response.data, next));
   }).catch(error => {
     dispatch(expandGroupRemovedAccountsFail(id, error));
   });

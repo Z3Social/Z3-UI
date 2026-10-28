@@ -1,18 +1,38 @@
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { defineMessages, injectIntl } from 'react-intl';
+import { defineMessages, injectIntl, FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
+
+import {
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  CardTitle,
+  FileInput,
+  Form,
+  FormActions,
+  FormGroup,
+  HStack,
+  Input,
+  Stack,
+  Text,
+  Textarea,
+} from 'soapbox/components/ui';
 
 import { changeValue, submit, reset } from '../../../actions/group_editor';
 
 const messages = defineMessages({
-  title: { id: 'groups.form.title', defaultMessage: 'Enter a new group title' },
-  description: { id: 'groups.form.description', defaultMessage: 'Enter the group description' },
-  coverImage: { id: 'groups.form.coverImage', defaultMessage: 'Upload a banner image' },
-  coverImageChange: { id: 'groups.form.coverImageChange', defaultMessage: 'Banner image selected' },
+  title: { id: 'groups.form.title', defaultMessage: 'Group title' },
+  titlePlaceholder: { id: 'groups.form.title_placeholder', defaultMessage: 'Enter group title' },
+  description: { id: 'groups.form.description', defaultMessage: 'Group description' },
+  descriptionPlaceholder: { id: 'groups.form.description_placeholder', defaultMessage: 'What is this group about?' },
+  coverImage: { id: 'groups.form.coverImage', defaultMessage: 'Banner image (optional)' },
+  coverHint: { id: 'groups.form.coverHint', defaultMessage: 'Recommended size 1200x400 JPG, PNG or WEBP' },
   create: { id: 'groups.form.create', defaultMessage: 'Create group' },
+  cancel: { id: 'groups.form.cancel', defaultMessage: 'Cancel' },
+  heading: { id: 'groups.create.heading', defaultMessage: 'Create a new group' },
 });
 
 const mapStateToProps = state => ({
@@ -63,7 +83,7 @@ class Create extends React.PureComponent {
   }
 
   handleCoverImageChange = e => {
-    this.props.onCoverImageChange(e.target.files[0]);
+    this.props.onCoverImageChange(e.target.files[0] || null);
   }
 
   handleSubmit = e => {
@@ -75,41 +95,71 @@ class Create extends React.PureComponent {
     const { title, description, coverImage, disabled, intl } = this.props;
 
     return (
-      <form className='group-form' method='post' onSubmit={this.handleSubmit}>
-        <div>
-          <input
-            className='standard'
-            type='text'
-            value={title}
-            disabled={disabled}
-            onChange={this.handleTitleChange}
-            placeholder={intl.formatMessage(messages.title)}
-          />
-        </div>
-        <div>
-          <textarea
-            className='standard'
-            type='text'
-            value={description}
-            disabled={disabled}
-            onChange={this.handleDescriptionChange}
-            placeholder={intl.formatMessage(messages.description)}
-          />
-        </div>
-        <div>
-          <label htmlFor='group_cover_image' className={classNames('group-form__file-label', { 'group-form__file-label--selected': coverImage !== null })}>
-            {intl.formatMessage(coverImage === null ? messages.coverImage : messages.coverImageChange)}
-          </label>
-          <input
-            type='file'
-            className='group-form__file'
-            id='group_cover_image'
-            disabled={disabled}
-            onChange={this.handleCoverImageChange}
-          />
-          <button className='standard-small'>{intl.formatMessage(messages.create)}</button>
-        </div>
-      </form>
+      <Card variant='rounded' size='lg' className='bg-white dark:bg-slate-800 shadow-md'>
+        <CardHeader backHref='/groups'>
+          <CardTitle>
+            <FormattedMessage id='groups.create.heading' defaultMessage='Create a new group' />
+          </CardTitle>
+        </CardHeader>
+
+        <CardBody>
+          <Form onSubmit={this.handleSubmit}>
+            <Stack space={4}>
+              <FormGroup labelText={intl.formatMessage(messages.title)}>
+                <Input
+                  type='text'
+                  value={title}
+                  disabled={disabled}
+                  onChange={this.handleTitleChange}
+                  placeholder={intl.formatMessage(messages.titlePlaceholder)}
+                  required
+                />
+              </FormGroup>
+
+              <FormGroup labelText={intl.formatMessage(messages.description)}>
+                <Textarea
+                  value={description}
+                  disabled={disabled}
+                  onChange={this.handleDescriptionChange}
+                  placeholder={intl.formatMessage(messages.descriptionPlaceholder)}
+                  rows={4}
+                />
+              </FormGroup>
+
+              <FormGroup
+                labelText={intl.formatMessage(messages.coverImage)}
+                hintText={intl.formatMessage(messages.coverHint)}
+              >
+                <FileInput
+                  id='group_cover_image'
+                  disabled={disabled}
+                  accept='image/*'
+                  onChange={this.handleCoverImageChange}
+                />
+                {coverImage && (
+                  <Text size='sm' theme='muted' className='mt-1'>
+                    {coverImage.name}
+                  </Text>
+                )}
+              </FormGroup>
+
+              <FormActions>
+                <HStack space={2} justifyContent='end'>
+                  <Link to='/groups'>
+                    <Button theme='secondary' text={intl.formatMessage(messages.cancel)} disabled={disabled} />
+                  </Link>
+                  <Button
+                    type='submit'
+                    theme='primary'
+                    text={intl.formatMessage(messages.create)}
+                    disabled={disabled || !title.trim()}
+                  />
+                </HStack>
+              </FormActions>
+            </Stack>
+          </Form>
+        </CardBody>
+      </Card>
     );
   }
 

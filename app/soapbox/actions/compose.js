@@ -232,7 +232,9 @@ const validateSchedule = state => {
   const fiveMinutesFromNow = new Date(new Date().getTime() + 300000);
   return schedule.getTime() > fiveMinutesFromNow.getTime();
 };
-const submitCompose = (routerHistory, force = false) => (dispatch, getState) => {
+const submitCompose = (routerHistory, groupOrForce = false, force = false) => (dispatch, getState) => {
+  const group = (typeof groupOrForce === "object" && groupOrForce !== null) ? groupOrForce : null;
+  const isForce = typeof groupOrForce === "boolean" ? groupOrForce : force;
   if (!isLoggedIn(getState)) return;
   const state = getState();
   const status = state.compose.text;
@@ -246,11 +248,11 @@ const submitCompose = (routerHistory, force = false) => (dispatch, getState) => 
   if ((!status || !status.length) && media.size === 0) {
     return;
   }
-  if (!force && needsDescriptions(state)) {
+  if (!isForce && needsDescriptions(state)) {
     dispatch(openModal('MISSING_DESCRIPTION', {
       onContinue: () => {
         dispatch(closeModal('MISSING_DESCRIPTION'));
-        dispatch(submitCompose(routerHistory, true));
+        dispatch(submitCompose(routerHistory, group, true));
       }
     }));
     return;
@@ -264,6 +266,7 @@ const submitCompose = (routerHistory, force = false) => (dispatch, getState) => 
   const idempotencyKey = state.compose.idempotencyKey;
   const params = {
     status,
+    group_id: group ? (group.get ? group.get("id") : group.id) : null,
     in_reply_to_id: state.compose.in_reply_to,
     quote_id: state.compose.quote,
     media_ids: media.map(item => item.id),
