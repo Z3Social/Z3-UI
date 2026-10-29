@@ -24,7 +24,7 @@ location / {
 }
 ```
 
-(See [`mastodon.conf`](https://github.com/NexifyHub/NexUI/blob/master/installation/mastodon.conf) file for a full example.)
+(See [`mastodon.conf`](https://github.com/Z3Social/Z3-UI/blob/main/installation/mastodon.conf) file for a full example.)
 
 Z3-UI incorporates much of the [Mastodon API](https://docs.joinmastodon.org/methods/), [Pleroma API](https://api.pleroma.social/), and more.
 It detects features supported by the backend to provide the right experience for the backend.
@@ -115,7 +115,7 @@ To get it running, just clone the repo:
 
 ```sh
 git clone https://github.com/Z3Social/Z3-UI.git
-cd NexUI
+cd Z3-UI
 ```
 
 Ensure that Node.js and Yarn are installed, then install dependencies:
@@ -169,7 +169,7 @@ All configuration is optional, except `NODE_ENV`.
 The Node environment.
 Z3-UI checks for the following options:
 
-- `development` - What you should use while developing NexUI FE.
+- `development` - What you should use while developing Z3-UI FE.
 - `production` - Use when compiling to deploy to a live server.
 - `test` - Use when running automated tests.
 
@@ -254,7 +254,7 @@ If you notice any issue with your UI style configuration, please update your HTT
 
 Here is a example configuration for nginx:
 ```
-# add style-src for nexui
+# add style-src for z3-ui
 proxy_hide_header Content-Security-Policy:
 add_header Content-Security-Policy "upgrade-insecure-requests;script-src 'self';connect-src 'self' blob: https://example.com wss://example.com;media-src 'self' https:;img-src 'self' data: blob: https:;default-src 'none';base-uri 'self';frame-ancestors 'none';style-src 'self' 'unsafe-inline';font-src 'self';manifest-src 'self';" always;
 ```
