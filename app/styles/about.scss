@@ -598,8 +598,8 @@ $fluid-breakpoint: $maximum-width + 20px;
   strong,
   em,
   b {
-    font-weight: bold;
-    color: var(--primary-text-color);
+    font-weight: 700;
+    color: inherit;
   }
 
   h1,

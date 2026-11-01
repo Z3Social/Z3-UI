@@ -578,6 +578,22 @@ body, html, #soapbox, .theme-mode-dark {
   color: var(--z3-text) !important;
 }
 
+/* Ensure rich-formatting text, strong, b, and headings in about/tos pages inherit bright theme text */
+.rich-formatting,
+.about-page,
+.about-page .rich-formatting {
+  color: var(--z3-text) !important;
+
+  strong, b, em {
+    color: #ffffff !important;
+    font-weight: 700 !important;
+  }
+
+  p, li, span, h1, h2, h3, h4, h5, h6 {
+    color: var(--z3-text) !important;
+  }
+}
+
 /* Top bar matching mockup */
 .top-bar, .app-header, header {
   background-color: var(--z3-surface) !important;
