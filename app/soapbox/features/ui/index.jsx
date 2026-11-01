@@ -217,8 +217,11 @@ const SwitchingColumnsArea = ({
       <WrappedRoute path='/@:username/favorites' component={FavouritedStatuses} page={ProfilePage} content={children} />
       <WrappedRoute path='/@:username/about' component={ProfileFields} page={ProfilePage} content={children} />
       <WrappedRoute path='/@:username/pins' component={PinnedStatuses} page={ProfilePage} content={children} />
+      <Redirect from='/@:username/posts' to='/@:username' exact />
       <WrappedRoute path='/@:username/posts/:statusId' publicRoute exact page={StatusPage} component={Status} content={children} />
       <Redirect from='/@:username/:statusId' to='/@:username/posts/:statusId' />
+
+      <WrappedRoute path='/posts/new' page={DefaultPage} component={NewStatus} content={children} exact />
 
       <WrappedRoute path='/statuses/new' page={DefaultPage} component={NewStatus} content={children} exact />
       <WrappedRoute path='/statuses/:statusId' exact page={StatusPage} component={Status} content={children} />
