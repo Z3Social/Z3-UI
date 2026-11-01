@@ -1,10 +1,22 @@
-import { List as ImmutableList } from 'immutable';
+import { List as ImmutableList, fromJS } from 'immutable';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { getSettings } from 'soapbox/actions/settings';
 import { getSoapboxConfig } from 'soapbox/actions/soapbox';
 import { Text } from 'soapbox/components/ui';
 import { useAppSelector } from 'soapbox/hooks';
+
+const DEFAULT_FOOTER_LINKS = fromJS([
+  { title: 'About', url: '/about' },
+  { title: 'Help', url: '/about/help' },
+  { title: 'Terms', url: '/about/terms' },
+  { title: 'Privacy', url: '/about/privacy' },
+  { title: 'Cookies', url: '/about/cookies' },
+  { title: 'Developers', url: '/about/developers' },
+  { title: 'News', url: '/about/news' },
+  { title: 'Accessibility', url: '/about/accessibility' },
+]);
+
 const Footer = () => {
   const {
     copyright,
@@ -12,9 +24,10 @@ const Footer = () => {
     locale
   } = useAppSelector(state => {
     const soapboxConfig = getSoapboxConfig(state);
+    const configuredLinks = soapboxConfig.navlinks.get('homeFooter');
     return {
       copyright: soapboxConfig.copyright,
-      navlinks: soapboxConfig.navlinks.get('homeFooter') || ImmutableList(),
+      navlinks: (configuredLinks && configuredLinks.size > 0) ? configuredLinks : DEFAULT_FOOTER_LINKS,
       locale: getSettings(state).get('locale')
     };
   });

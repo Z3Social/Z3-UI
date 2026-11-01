@@ -11,9 +11,14 @@
   "copyright": "©2026 by ZЗ Social (z3.social).",
   "navlinks": {
     "homeFooter": [
-      { "title": "Home", "url": "/" },
-      { "title": "Groups", "url": "/groups" },
-      { "title": "About", "url": "/about" }
+      { "title": "About", "url": "/about" },
+      { "title": "Help", "url": "/about/help" },
+      { "title": "Terms", "url": "/about/terms" },
+      { "title": "Privacy", "url": "/about/privacy" },
+      { "title": "Cookies", "url": "/about/cookies" },
+      { "title": "Developers", "url": "/about/developers" },
+      { "title": "News", "url": "/about/news" },
+      { "title": "Accessibility", "url": "/about/accessibility" }
     ]
   }
 }
